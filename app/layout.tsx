@@ -31,12 +31,6 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <head>
-        <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
-          rel="stylesheet"
-        />
-      </head>
       <body
         className={`${inter.variable} font-inter antialiased bg-white text-gray-900 tracking-tight`}
       >
