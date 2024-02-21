@@ -5,11 +5,11 @@ import Image01 from "../../public/images/ya-service-01.jpg";
 import Image02 from "../../public/images/ya-service-02.jpg";
 
 export const metadata = {
-  title: "Services - AGTG Church",
+  title: "Ministries - AGTG Church",
   description: "Christian Church",
 };
 
-export default function Services() {
+export default function Ministries() {
   return (
     <>
       <Hero />
