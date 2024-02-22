@@ -20,7 +20,14 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@images/*": ["./public/images/*"],
+      "@videos/*": ["./public/videos/*"],
+      "@app/*": ["./src/app/*"],
+      "@components/*": ["./src/components/*"],
+    }
   },
   "include": [
     "types/**/*.d.ts",
