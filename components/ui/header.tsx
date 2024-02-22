@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 
 import MobileMenu from "./mobile-menu";
+import { NAV_ITEMS } from "../../app/constants";
+import MenuItem from "../MenuItem";
+import MenuItemWithSubMenu from "../MenuItemWithSubMenu";
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
@@ -51,7 +54,18 @@ export default function Header() {
                   </div>
                 </div>
                 <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-transparent dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                  <li>
+                  {NAV_ITEMS.map((item, idx) => {
+                    return item.submenu ? (
+                      <MenuItemWithSubMenu
+                        key={idx}
+                        title={item.title}
+                        items={item.subMenuItems}
+                      />
+                    ) : (
+                      <MenuItem key={idx} item={item} />
+                    );
+                  })}
+                  {/* <li>
                     <a
                       href="/"
                       className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
@@ -169,7 +183,7 @@ export default function Header() {
                         </li>
                       </ul>
                     </div>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>
