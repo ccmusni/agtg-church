@@ -5,12 +5,14 @@ export const metadata = {
 
 import Hero from "@components/hero";
 import Branches from "@components/branches";
+import Announcements from "@/components/announcements";
 
 export default function Home() {
   return (
     <>
       <Hero />
       <Branches />
+      <Announcements />
     </>
   );
 }

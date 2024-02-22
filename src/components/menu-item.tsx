@@ -1,6 +1,6 @@
 import { INavItem } from "Nav";
 
-export default function ({ item }: { item: INavItem }) {
+export default function MenuItem({ item }: { item: INavItem }) {
   return (
     <li>
       <a
