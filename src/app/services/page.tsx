@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import supabase from "@/utils/supabase";
 import { IService } from "Service";
 
 import Hero from "@components/hero";
@@ -13,25 +13,19 @@ export default function Services() {
   const [fetchError, setFetchError] = useState("");
   const [services, setServices] = useState<IService[]>();
 
-  const supabase = createClientComponentClient();
-
   const fetchMembers = async () => {
     const { data, error } = await supabase
       .from("services")
       .select(`id, title, description`);
 
     if (error) {
-      setFetchError("Could not fetch the YA members");
+      setFetchError("Could not fetch the Services");
       setServices(null);
       console.log(error);
     }
 
     if (data?.length) {
-      const fetchedServices: IService[] = data.map((d) => ({
-        id: d["id"] as number,
-        title: d["title"] as string,
-        description: d["description"] as string,
-      }));
+      const fetchedServices: IService[] = data;
 
       setServices(fetchedServices);
       setIsLoading(false);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import supabase from "@/utils/supabase";
 
 import { IMember } from "Member";
 
@@ -13,8 +13,6 @@ export default function Members() {
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState("");
   const [members, setMembers] = useState<IMember[]>();
-
-  const supabase = createClientComponentClient();
 
   const fetchMembers = async () => {
     const { data, error } = await supabase.from("ya-members").select(`

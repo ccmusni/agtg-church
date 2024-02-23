@@ -29,6 +29,7 @@ export default function BranchList({ branches }: { branches: IBranch[] }) {
         <div className="mb-8 md:mb-0">
           {branches.map((branch) => (
             <a
+              key={branch.id}
               className={`flex items-center text-lg p-5 rounded border transition duration-300 ease-in-out mb-3 ${
                 tab !== branch.id
                   ? "bg-white shadow-md border-gray-200 hover:shadow-lg"
@@ -61,6 +62,7 @@ export default function BranchList({ branches }: { branches: IBranch[] }) {
             {branches?.length &&
               branches.map((branch) => (
                 <Transition
+                  key={branch.id}
                   show={tab === branch.id}
                   appear={true}
                   className="w-full"
