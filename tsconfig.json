@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -26,7 +22,7 @@
       "@images/*": ["./public/images/*"],
       "@videos/*": ["./public/videos/*"],
       "@app/*": ["./src/app/*"],
-      "@components/*": ["./src/components/*"],
+      "@components/*": ["./src/components/*"]
     }
   },
   "include": [
@@ -34,9 +30,7 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "app/layout.xtsx", "app/(default)/page.xtsx", "app/(default)x/layout.xtsx", "app/signin/layout.xtsx", "app/login/layout.xtsx"  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "**/*.tsx",
+  ],
+  "exclude": ["node_modules"]
 }

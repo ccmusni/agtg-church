@@ -4,6 +4,5 @@ declare module 'Announcement' {
     id: number,
     title: string;
     details?: string;
-    image?: Blob;
   }
 }

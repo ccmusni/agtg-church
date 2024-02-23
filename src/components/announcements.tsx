@@ -1,29 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import supabase from "@/utils/supabase";
 
 import { IAnnouncement } from "Announcement";
 
 import Loading from "./ui/loading";
 import AnnouncementItem from "./announcement-item";
+import { fetchAnnouncements } from "@/services/announcement.service";
 
 export default function Announcement() {
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState("");
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>();
 
-  const supabase = createClientComponentClient();
-
-  const fetchAnnouncements = async () => {
-    const { data, error } = await supabase
-      .from("announcements")
-      .select(`id, title, details`);
+  const fetchStaticAnnouncements = async () => {
+    const { data, error } = await fetchAnnouncements();
 
     if (error) {
-      setFetchError("Could not fetch the YA members");
+      setFetchError("Could not fetch the Announcements");
       setAnnouncements(null);
-      console.log(error);
     }
 
     if (data?.length) {
@@ -36,7 +32,7 @@ export default function Announcement() {
   };
 
   useEffect(() => {
-    fetchAnnouncements();
+    fetchStaticAnnouncements();
   }, []);
 
   return (
@@ -66,7 +62,10 @@ export default function Announcement() {
               <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
                 {announcements?.length &&
                   announcements.map((announcement) => (
-                    <AnnouncementItem announcement={announcement} />
+                    <AnnouncementItem
+                      key={announcement.id}
+                      announcement={announcement}
+                    />
                   ))}
               </div>
             )}

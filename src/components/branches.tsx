@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useState, useEffect } from "react";
+import supabase from "@/utils/supabase";
 
 import { IBranch } from "Branch";
 import Loading from "./ui/loading";
@@ -12,15 +12,13 @@ export default function Branches() {
   const [fetchError, setFetchError] = useState("");
   const [branches, setBranches] = useState<IBranch[]>();
 
-  const supabase = createClientComponentClient();
-
   const fetchBranches = async () => {
     const { data, error } = await supabase
       .from("branches")
       .select(`id, name, address`);
 
     if (error) {
-      setFetchError("Could not fetch the YA members");
+      setFetchError("Could not fetch the Branches");
       setBranches(null);
       console.log(error);
     }
@@ -64,7 +62,7 @@ export default function Branches() {
             {isLoading ? (
               <Loading />
             ) : (
-              <>{branches?.length && <BranchList branches={branches} />}</>
+              <>{!!branches?.length && <BranchList branches={branches} />}</>
             )}
           </div>
         </div>

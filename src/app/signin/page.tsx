@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import supabase from "@/utils/supabase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -13,8 +13,6 @@ export default function SignIn() {
   const router = useRouter();
   const [user, setUser] = useState<Partial<IUser>>(null);
   const [loading, setLoading] = useState(true);
-
-  const supabase = createClientComponentClient();
 
   useEffect(() => {
     async function getUser() {
