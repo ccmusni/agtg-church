@@ -4,8 +4,8 @@ export const metadata = {
 };
 
 import Hero from "@components/hero";
-import Branches from "@components/branches";
-import Announcements from "@/components/announcements";
+import Branches from "@/components/branches/branches";
+import Announcements from "@/components/announcements/announcements";
 
 export default function Home() {
   return (

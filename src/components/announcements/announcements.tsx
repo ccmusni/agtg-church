@@ -5,7 +5,7 @@ import supabase from "@/utils/supabase";
 
 import { IAnnouncement } from "Announcement";
 
-import Loading from "./ui/loading";
+import Loading from "../ui/loading";
 import AnnouncementItem from "./announcement-item";
 import { fetchAnnouncements } from "@/services/announcement.service";
 
@@ -59,8 +59,8 @@ export default function Announcement() {
             {isLoading ? (
               <Loading />
             ) : (
-              <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
-                {announcements?.length &&
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {!!announcements?.length &&
                   announcements.map((announcement) => (
                     <AnnouncementItem
                       key={announcement.id}

@@ -59,7 +59,7 @@ export default function BranchList({ branches }: { branches: IBranch[] }) {
             data-aos="zoom-y-out"
             ref={tabs}
           >
-            {branches?.length &&
+            {!!branches?.length &&
               branches.map((branch) => (
                 <Transition
                   key={branch.id}

@@ -6,7 +6,7 @@ import { fetchAnnouncements } from "@/services/announcement.service";
 
 import { IAnnouncement } from "Announcement";
 import Loading from "@/components/ui/loading";
-import AnnouncementItem from "@/components/announcement-item";
+import AnnouncementItem from "@/components/announcements/announcement-item";
 
 export default function AnnouncementsCms() {
   const [isLoading, setIsLoading] = useState(true);
@@ -67,7 +67,7 @@ export default function AnnouncementsCms() {
                 <Loading />
               ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {announcements?.length &&
+                  {!!announcements?.length &&
                     announcements.map((announcement) => (
                       <AnnouncementItem
                         key={announcement.id}
