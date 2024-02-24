@@ -7,7 +7,7 @@ import { IMember } from "Member";
 
 import Hero from "@components/hero";
 import Loading from "@/components/ui/loading";
-import MemberTableRow from "@components/member-table-row";
+import MemberTableRow from "./member-table-row";
 
 export default function Members() {
   const [isLoading, setIsLoading] = useState(true);
@@ -85,7 +85,7 @@ export default function Members() {
                     </tr>
                   </thead>
                   <tbody>
-                    {members?.length &&
+                    {!!members?.length &&
                       members.map((member) => (
                         <MemberTableRow key={member?.id} member={member} />
                       ))}

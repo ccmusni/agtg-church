@@ -2,30 +2,30 @@ import { INavItem } from "Nav";
 
 export const NAV_ITEMS: INavItem[] = [
   {
-    title: "Home",
+    label: "Home",
     path: "/",
   },
   {
-    title: "About",
+    label: "About",
     path: "/about",
   },
   {
-    title: "Services",
+    label: "Services",
     path: "/services",
   },
   {
-    title: "Ministries",
+    label: "Ministries",
     path: "/ministries",
-    submenu: true,
+    hasSubMenu: true,
     subMenuItems: [
       {
-        title: "Young Adult Ministry",
+        label: "Young Adult Ministry",
         path: "/ministries-ya",
-        submenu: true,
+        hasSubMenu: true,
         subMenuItems: [
-          { title: "Gallery", path: "/ministries-ya" },
-          { title: "Members", path: "/ministries-ya/members" },
-          { title: "Online Cell Group", path: "/ministries-ya/online-cg" },
+          { label: "Gallery", path: "/ministries-ya" },
+          { label: "Members", path: "/ministries-ya/members" },
+          { label: "Online Cell Group", path: "/ministries-ya/online-cg" },
         ],
       },
     ],

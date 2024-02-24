@@ -6,7 +6,7 @@ import { IService } from "Service";
 
 import Hero from "@components/hero";
 import Loading from "@/components/ui/loading";
-import ServiceItem from "@/components/service-item";
+import ServiceItem from "./service-item";
 
 export default function Services() {
   const [isLoading, setIsLoading] = useState(true);
@@ -54,8 +54,10 @@ export default function Services() {
               <Loading />
             ) : (
               <>
-                {services?.length &&
-                  services.map((service) => <ServiceItem service={service} />)}
+                {!!services?.length &&
+                  services.map((service, idx) => (
+                    <ServiceItem key={idx} service={service} />
+                  ))}
               </>
             )}
           </div>

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import supabase from "@/utils/supabase";
 
 import { IBranch } from "Branch";
-import Loading from "./ui/loading";
+import Loading from "../ui/loading";
 import BranchList from "./branch-list";
 
 export default function Branches() {
