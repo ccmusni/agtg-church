@@ -1,116 +1,92 @@
-import { useEffect, useState } from "react";
-import supabase from "@/utils/supabase";
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 
-import {
-  Button,
-  Modal,
-  Label,
-  TextInput,
-  Checkbox,
-  Textarea,
-} from "flowbite-react";
+import { Button } from "flowbite-react";
 
 import { IAnnouncement } from "Announcement";
+import AnnouncementItemAddEdit from "./announcement-item-add-edit";
+import CustomCard from "../card";
+import { fetchImage } from "@/services/announcement.service";
 
 const CDNURL =
   "https://yrrhmzptqtwwbvytrpjv.supabase.co/storage/v1/object/public/images/";
 
 export default function AnnouncementItem({
   announcement,
+  imgPreviewUrlSrc,
   admin,
   onEdit,
+  onUploadImage,
+  onSave,
 }: {
   announcement: IAnnouncement;
   admin?: boolean;
+  imgPreviewUrlSrc?: string;
   onEdit?: () => void;
+  onUploadImage?: (e: ChangeEvent<HTMLInputElement>, id: number) => void;
+  onSave?: (
+    id: number,
+    title: string,
+    details: string,
+    img_file_name: string
+  ) => void;
 }) {
+  const [isLoading, setIsLoading] = useState(false);
+  // TODO: Apply fetchError
+  const [fetchError, setFetchError] = useState("");
   const [image, setImage] = useState<{ name: string }>();
+  const [imgSrc, setImgSrc] = useState("/images/announcement-template.jpg");
   const [openModal, setOpenModal] = useState(false);
 
-  const getImage = async () => {
-    const { data, error } = await supabase.storage
-      .from("images")
-      .list(`announcements/${announcement.id}/`, {
-        sortBy: { column: "name" },
-      });
+  const fetchStaticImage = async () => {
+    const { data, error } = await fetchImage(announcement?.id);
 
-    if (data) {
+    if (error) {
+      setFetchError("Could not fetch the Announcements");
+      setImage(null);
+    }
+
+    if (data?.length) {
       setImage(data[0]);
-    } else if (error) {
-      console.log(error);
+      setIsLoading(false);
+      setFetchError(null);
     }
   };
 
   useEffect(() => {
-    getImage();
-  }, []);
+    if (!image && !isLoading) {
+      setIsLoading(true);
+      fetchStaticImage();
+    }
+  }, [image]);
+
+  useMemo(() => {
+    if (!!image) {
+      const newImage = image?.name
+        ? `${CDNURL}announcements/${announcement.id}/${image?.name}`
+        : imgSrc;
+      setImgSrc(newImage);
+    }
+  }, [image]);
 
   return (
-    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <img
-        className="h-auto max-w-full"
-        src={
-          image
-            ? `${CDNURL}announcements/${announcement.id}/${image?.name}`
-            : "/images/announcement-template.jpg"
-        }
-        alt={image?.name}
-      />
-
-      <div className="p-5">
-        <a href="#">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            {announcement.title}
-          </h5>
-        </a>
-        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-          {announcement.details}
-        </p>
-        {admin && (
-          <>
-            <Button onClick={() => setOpenModal(true)}>Edit</Button>
-            <Modal
-              show={openModal}
-              size="md"
-              popup
-              onClose={() => setOpenModal(false)}
-            >
-              <Modal.Header />
-              <Modal.Body>
-                <div className="space-y-6">
-                  <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                    Edit Announcement
-                  </h3>
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="title" value="Title" />
-                    </div>
-                    <TextInput
-                      id="title"
-                      placeholder="Title here..."
-                      value={announcement.title}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="details" value="Details" />
-                    </div>
-                    <Textarea
-                      id="details"
-                      placeholder="Details here..."
-                      value={announcement.details}
-                    />
-                  </div>
-                  <div className="w-full">
-                    <Button>Save</Button>
-                  </div>
-                </div>
-              </Modal.Body>
-            </Modal>
-          </>
-        )}
-      </div>
-    </div>
+    <CustomCard
+      title={announcement.title}
+      details={announcement.details}
+      imgSrc={imgSrc}
+    >
+      {admin && (
+        <>
+          <Button onClick={() => setOpenModal(true)}>Edit</Button>
+          <AnnouncementItemAddEdit
+            announcement={announcement}
+            imgSrc={imgPreviewUrlSrc || imgSrc}
+            open={openModal}
+            onUploadImage={onUploadImage}
+            onSave={onSave}
+            onClose={() => setOpenModal(false)}
+          />
+        </>
+      )}
+    </CustomCard>
   );
 }

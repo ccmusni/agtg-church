@@ -4,5 +4,6 @@ declare module 'Announcement' {
     id: number,
     title: string;
     details?: string;
+    img_file_name: string;
   }
 }

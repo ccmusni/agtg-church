@@ -1,15 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import supabase from "@/utils/supabase";
 
 import { IAnnouncement } from "Announcement";
-
-import Loading from "../ui/loading";
-import AnnouncementItem from "./announcement-item";
 import { fetchAnnouncements } from "@/services/announcement.service";
+import Loading from "../ui/loading";
 
-export default function Announcement() {
+import AnnouncementItem from "./announcement-item";
+
+export default function Announcements() {
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState("");
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>();
@@ -59,7 +58,7 @@ export default function Announcement() {
             {isLoading ? (
               <Loading />
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 justify-items-center">
                 {!!announcements?.length &&
                   announcements.map((announcement) => (
                     <AnnouncementItem
