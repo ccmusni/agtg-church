@@ -1,21 +1,25 @@
 "use client";
 
 import { ChangeEvent, useEffect, useState } from "react";
+import { HiOutlinePlus } from "react-icons/hi";
 import {
   fetchAnnouncements,
-  updateAnnouncement,
-  updateImage,
+  addUpdateAnnouncement,
+  deleteAnnouncement,
 } from "@/services/announcement.service";
 
 import { IAnnouncement } from "Announcement";
 import Loading from "@/components/ui/loading";
 import AnnouncementItem from "@/components/announcements/announcement-item";
+import CustomCard from "@/components/custom-card";
+import { Button } from "flowbite-react";
+import AnnouncementItemAddEditModal from "@/components/announcements/announcement-item-add-edit-modal";
 
 export type TAnnouncementOnSaveProps = {
-  id: number;
+  id?: number;
   title: string;
   details: string;
-  oldFileName: string;
+  oldFileName?: string;
 };
 
 export default function AnnouncementsCms() {
@@ -24,6 +28,7 @@ export default function AnnouncementsCms() {
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>();
   const [file, setFile] = useState<File>();
   const [imgPreviewUrlSrc, setImgPreviewUrlSrc] = useState("");
+  const [openModal, setOpenModal] = useState(false);
 
   const fetchStaticAnnouncements = async () => {
     const { data, error } = await fetchAnnouncements();
@@ -42,6 +47,13 @@ export default function AnnouncementsCms() {
     }
   };
 
+  useEffect(() => {
+    if (!announcements?.length && !isLoading) {
+      setIsLoading(true);
+      fetchStaticAnnouncements();
+    }
+  }, [announcements]);
+
   const handleUploadImage = (e: ChangeEvent<HTMLInputElement>, id: number) => {
     const newFile = e.target.files[0];
 
@@ -57,7 +69,7 @@ export default function AnnouncementsCms() {
   }: TAnnouncementOnSaveProps) => {
     setIsLoading(true);
 
-    const { error } = await updateAnnouncement(
+    const { error } = await addUpdateAnnouncement(
       id,
       title,
       details,
@@ -70,12 +82,19 @@ export default function AnnouncementsCms() {
     }
   };
 
-  useEffect(() => {
-    if (!announcements?.length && !isLoading) {
-      setIsLoading(true);
+  const handleDelete = (id: number) => {
+    setIsLoading(true);
+
+    const status = deleteAnnouncement(id);
+
+    status.finally(() => {
       fetchStaticAnnouncements();
-    }
-  }, [announcements]);
+    });
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <section className="relative pt-16">
@@ -92,6 +111,15 @@ export default function AnnouncementsCms() {
             <>
               {isLoading && <Loading />}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 justify-items-center">
+                <CustomCard>
+                  <Button
+                    color="gray"
+                    className="h-full w-full border-0"
+                    onClick={() => setOpenModal(true)}
+                  >
+                    <HiOutlinePlus className="h-full w-full text-5xl" />
+                  </Button>
+                </CustomCard>
                 {!!announcements?.length &&
                   announcements.map((announcement) => (
                     <AnnouncementItem
@@ -101,9 +129,22 @@ export default function AnnouncementsCms() {
                       imgPreviewUrlSrc={imgPreviewUrlSrc}
                       onUploadImage={handleUploadImage}
                       onSave={handleSave}
+                      onDelete={handleDelete}
                     />
                   ))}
               </div>
+              {openModal && (
+                <AnnouncementItemAddEditModal
+                  imgSrc={imgPreviewUrlSrc}
+                  open={openModal}
+                  onUploadImage={handleUploadImage}
+                  onSave={({ title, details }) => {
+                    handleSave({ title, details });
+                    handleCloseModal();
+                  }}
+                  onClose={handleCloseModal}
+                />
+              )}
             </>
           </div>
         </div>
