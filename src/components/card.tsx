@@ -1,6 +1,12 @@
 import { ReactNode } from "react";
-import { Card } from "flowbite-react";
+import { Card, CustomFlowbiteTheme } from "flowbite-react";
 import Image from "next/image";
+
+const customTheme: CustomFlowbiteTheme["card"] = {
+  root: {
+    children: "flex flex-col h-full justify-between gap-4 p-6",
+  },
+};
 
 export default function CustomCard({
   title,
@@ -17,7 +23,7 @@ export default function CustomCard({
 }) {
   return (
     <Card
-      className="max-w-sm w-full"
+      className="max-w-sm w-full h-50"
       renderImage={() => (
         <Image
           className="w-full"
@@ -33,12 +39,19 @@ export default function CustomCard({
           }}
         />
       )}
+      theme={customTheme}
     >
-      <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {title}
-      </h5>
-      <p className="font-normal text-gray-700 dark:text-gray-400">{details}</p>
-      {children}
+      <>
+        <div>
+          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {title}
+          </h5>
+          <p className="font-normal text-gray-700 dark:text-gray-400">
+            {details}
+          </p>
+        </div>
+        {children}
+      </>
     </Card>
   );
 }

@@ -11,6 +11,13 @@ import { IAnnouncement } from "Announcement";
 import Loading from "@/components/ui/loading";
 import AnnouncementItem from "@/components/announcements/announcement-item";
 
+export type TAnnouncementOnSaveProps = {
+  id: number;
+  title: string;
+  details: string;
+  oldFileName: string;
+};
+
 export default function AnnouncementsCms() {
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
@@ -35,8 +42,6 @@ export default function AnnouncementsCms() {
     }
   };
 
-  const handleEdit = () => {};
-
   const handleUploadImage = (e: ChangeEvent<HTMLInputElement>, id: number) => {
     const newFile = e.target.files[0];
 
@@ -44,33 +49,24 @@ export default function AnnouncementsCms() {
     setImgPreviewUrlSrc(URL.createObjectURL(newFile));
   };
 
-  const handleSave = async (
-    id: number,
-    title: string,
-    details: string,
-    oldImgfileName: string
-  ) => {
+  const handleSave = async ({
+    id,
+    title,
+    details,
+    oldFileName,
+  }: TAnnouncementOnSaveProps) => {
     setIsLoading(true);
-    const newfileName = `${file?.name.replace(/\s/g, "")}`;
 
-    const { error: updateImgError } = await updateImage(
+    const { error } = await updateAnnouncement(
       id,
-      oldImgfileName,
-      newfileName,
+      title,
+      details,
+      oldFileName,
       file
     );
 
-    if (!updateImgError) {
-      const { error: updateAnnouncementError } = await updateAnnouncement(
-        id,
-        title,
-        details,
-        newfileName
-      );
-
-      if (!updateAnnouncementError) {
-        fetchStaticAnnouncements();
-      }
+    if (!error) {
+      fetchStaticAnnouncements();
     }
   };
 
@@ -93,9 +89,8 @@ export default function AnnouncementsCms() {
           <div className="pt-4 md:pt-8 pb-8 md:pb-16">
             {/* Content */}
             {fetchError && <p>{fetchError}</p>}
-            {isLoading ? (
-              <Loading />
-            ) : (
+            <>
+              {isLoading && <Loading />}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 justify-items-center">
                 {!!announcements?.length &&
                   announcements.map((announcement) => (
@@ -109,7 +104,7 @@ export default function AnnouncementsCms() {
                     />
                   ))}
               </div>
-            )}
+            </>
           </div>
         </div>
       </div>
