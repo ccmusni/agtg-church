@@ -7,7 +7,7 @@ export const fetchAnnouncements = async () => {
     .order("id", { ascending: true });
 };
 
-export const updateAnnouncement = async (
+export const addUpdateAnnouncement = async (
   id: number,
   title: string,
   details: string,
@@ -16,21 +16,29 @@ export const updateAnnouncement = async (
 ) => {
   const newFileName = !!file ? `${file?.name.replace(/\s/g, "")}` : oldFileName;
 
-  const { error } = await updateImage(
-    id,
-    oldFileName,
-    newFileName,
-    file
-  );
+  const { data, error } = id ? await supabase
+    .from("announcements")
+    .update({ title, details, img_file_name: newFileName })
+    .eq("id", id) : await supabase
+      .from("announcements")
+      .insert({ title, details, img_file_name: newFileName }).select('id');
+
+  const newId = id || data[0].id
 
   if (!error) {
-    return await supabase
-      .from("announcements")
-      .update({ title, details, img_file_name: newFileName })
-      .eq("id", id);
+    return await addUpdateImage(newId, oldFileName, newFileName, file);
   } else {
-    return { error }
+    return { error };
   }
+};
+
+export const deleteAnnouncement = async (
+  id: number,
+) => {
+  return await supabase
+    .from('announcements')
+    .delete()
+    .eq('id', id)
 };
 
 export const fetchImage = async (id: number) => {
@@ -43,21 +51,21 @@ export const deleteImage = async (id: number, fileName: string) => {
   return !fileName
     ? { error: null }
     : await supabase.storage
-        .from("images")
-        .remove([`announcements/${id}/${fileName}`]);
+      .from("images")
+      .remove([`announcements/${id}/${fileName}`]);
 };
 
-export const updateImage = async (
+export const addUpdateImage = async (
   id: number,
   oldFileName: string,
   newFileName: string,
   file: File
 ) => {
-  const { error } = await deleteImage(id, oldFileName);
+  const error = id ? (await deleteImage(id, oldFileName)).error : "";
 
   return !!error
     ? error
     : await supabase.storage
-        .from("images")
-        .upload(`announcements/${id}/${newFileName}`, file);
+      .from("images")
+      .upload(`announcements/${id}/${newFileName}`, file);
 };

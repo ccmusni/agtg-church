@@ -1,12 +1,11 @@
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
-
-import { Button } from "flowbite-react";
+import { ChangeEvent, useMemo, useState } from "react";
+import { Button, ButtonGroup } from "flowbite-react";
 
 import { IAnnouncement } from "Announcement";
-import AnnouncementItemAddEdit from "./announcement-item-add-edit";
-import CustomCard from "../card";
-import { fetchImage } from "@/services/announcement.service";
 import { TAnnouncementOnSaveProps } from "@/app/admin/cms/announcements/page";
+
+import CustomCard from "../custom-card";
+import AnnouncementItemAddEditModal from "./announcement-item-add-edit-modal";
 
 const CDNURL =
   "https://yrrhmzptqtwwbvytrpjv.supabase.co/storage/v1/object/public/images/";
@@ -17,6 +16,7 @@ export default function AnnouncementItem({
   admin,
   onUploadImage,
   onSave,
+  onDelete,
 }: {
   announcement: IAnnouncement;
   admin?: boolean;
@@ -28,6 +28,7 @@ export default function AnnouncementItem({
     details,
     oldFileName,
   }: TAnnouncementOnSaveProps) => void;
+  onDelete?: (id: number) => void;
 }) {
   const { id, img_file_name: imgFileName } = announcement;
   const [imgSrc, setImgSrc] = useState("/images/announcement-template.jpg");
@@ -64,10 +65,19 @@ export default function AnnouncementItem({
     >
       {admin && (
         <>
-          <Button className="z-0" onClick={() => setOpenModal(true)}>
-            Edit
-          </Button>
-          <AnnouncementItemAddEdit
+          <ButtonGroup>
+            <Button className="w-full z-0" onClick={() => setOpenModal(true)}>
+              Edit
+            </Button>
+            <Button
+              className="w-full z-0"
+              color="failure"
+              onClick={() => onDelete(id)}
+            >
+              Delete
+            </Button>
+          </ButtonGroup>
+          <AnnouncementItemAddEditModal
             announcement={announcement}
             imgSrc={imgPreviewUrlSrc || imgSrc}
             open={openModal}
