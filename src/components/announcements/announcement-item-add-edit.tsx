@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import Image from "next/image";
 
 import {
@@ -11,6 +11,7 @@ import {
 } from "flowbite-react";
 
 import { IAnnouncement } from "Announcement";
+import { TAnnouncementOnSaveProps } from "@/app/admin/cms/announcements/page";
 
 const CDNURL =
   "https://yrrhmzptqtwwbvytrpjv.supabase.co/storage/v1/object/public/images/";
@@ -27,21 +28,24 @@ export default function AnnouncementItemAddEdit({
   imgSrc: string;
   open?: boolean;
   onUploadImage?: (e: ChangeEvent<HTMLInputElement>, id: number) => void;
-  onSave?: (
-    id: number,
-    title: string,
-    details: string,
-    img_file_name: string
-  ) => void;
+  onSave?: ({ title, details }: Partial<TAnnouncementOnSaveProps>) => void;
   onClose?: () => void;
 }) {
+  const [values, setValues] = useState({
+    title: announcement.title || "",
+    details: announcement.details || "",
+  });
+
+  const handleTextChange = ({
+    target,
+  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setValues((prev) => ({ ...prev, [target.id]: target.value }));
+  };
+
   const handleOnSave = () => {
-    onSave(
-      announcement.id,
-      announcement.title,
-      announcement.details,
-      announcement.img_file_name
-    );
+    onSave({
+      ...values,
+    });
   };
 
   return (
@@ -59,7 +63,7 @@ export default function AnnouncementItemAddEdit({
               width={355}
               height={240}
               src={imgSrc}
-              alt={announcement.title}
+              alt={values.title}
               style={{
                 height: 240,
                 minHeight: 240,
@@ -83,8 +87,9 @@ export default function AnnouncementItemAddEdit({
             <TextInput
               id="title"
               placeholder="Title here..."
-              value={announcement.title}
+              value={values.title}
               required
+              onChange={handleTextChange}
             />
           </div>
           <div>
@@ -94,7 +99,8 @@ export default function AnnouncementItemAddEdit({
             <Textarea
               id="details"
               placeholder="Details here..."
-              value={announcement.details}
+              value={values.details}
+              onChange={handleTextChange}
             />
           </div>
           <div className="w-full">
