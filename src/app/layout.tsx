@@ -8,6 +8,7 @@ import { Inter } from "next/font/google";
 
 import Navbar from "@/components/navbar/navbar";
 import Footer from "@components/ui/footer";
+import ReduxProvider from "@/store/redux-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,9 +36,11 @@ export default function RootLayout({
         className={`${inter.variable} font-inter antialiased bg-white text-gray-900 tracking-tight`}
       >
         <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-          <Navbar />
-          {children}
-          <Footer />
+          <ReduxProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </ReduxProvider>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
       </body>
