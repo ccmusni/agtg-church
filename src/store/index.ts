@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { authReducer } from "@/store/authSlice";
+import { userReducer } from "@/store/userSlice";
 // Other imports stays as before...
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -15,6 +16,7 @@ const authPersistConfig = {
 
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
+  user: persistReducer(authPersistConfig, userReducer),
 });
 
 export const store = configureStore({
