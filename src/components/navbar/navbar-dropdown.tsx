@@ -1,5 +1,5 @@
 import { usePathname } from "next/navigation";
-import { INavItem } from "Nav";
+import { INavbarItem } from "Navbar";
 import { Dropdown, DropdownItem } from "flowbite-react";
 
 import NavbarItem from "./navbar-item";
@@ -9,7 +9,7 @@ export default function NavbarDropdown({
   items,
 }: {
   label: string;
-  items: INavItem[];
+  items: INavbarItem[];
 }) {
   const path = usePathname();
 

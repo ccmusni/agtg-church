@@ -2,6 +2,11 @@
 
 import { useState, useEffect } from "react";
 import {
+  Avatar,
+  Dropdown,
+  DropdownDivider,
+  DropdownHeader,
+  DropdownItem,
   Navbar as FlowbiteNavbar,
   NavbarCollapse,
   NavbarToggle,
@@ -37,19 +42,44 @@ export default function Navbar() {
         <NavbarToggle />
       </div>
 
-      <NavbarCollapse className="max-w-6xl mx-auto px-2 sm:px-6 md:w-full">
-        {NAV_ITEMS.map((item, idx) => {
-          return item.hasSubMenu ? (
-            <div key={idx} className="text-sm md:text-lg p-3 md:p-0">
-              <NavbarDropdown label={item.label} items={item.subMenuItems} />
-            </div>
-          ) : (
-            <div key={idx} className="text-sm md:text-lg">
-              <NavbarItem item={item} />{" "}
-            </div>
-          );
-        })}
-      </NavbarCollapse>
+      <div className="flex items-center justify-between max-w-6xl mx-auto px-2 sm:px-6 md:w-full ">
+        <NavbarCollapse>
+          {NAV_ITEMS.map((item, idx) => {
+            return item.hasSubMenu ? (
+              <div key={idx} className="text-sm md:text-lg p-3 md:p-0">
+                <NavbarDropdown label={item.label} items={item.subMenuItems} />
+              </div>
+            ) : (
+              <div key={idx} className="text-sm md:text-lg">
+                <NavbarItem item={item} />{" "}
+              </div>
+            );
+          })}
+        </NavbarCollapse>
+
+        <Dropdown
+          arrowIcon={false}
+          inline
+          label={
+            <Avatar
+              alt="User settings"
+              img="/images/default-profile-pic.png"
+              rounded
+            />
+          }
+        >
+          <DropdownHeader>
+            <span className="block text-sm">Clifford Musni</span>
+            <span className="block truncate text-sm font-medium">
+              cliffordmarkmusni@gmail.com
+            </span>
+          </DropdownHeader>
+          <DropdownItem>Content Management System</DropdownItem>
+          <DropdownItem>Settings</DropdownItem>
+          <DropdownDivider />
+          <DropdownItem>Sign out</DropdownItem>
+        </Dropdown>
+      </div>
     </FlowbiteNavbar>
   );
 }
