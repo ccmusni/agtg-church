@@ -4,114 +4,120 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import supabase from "@/utils/supabase";
 
-import { IUser } from "User";
+import { useAppSelector } from "@/store";
+import { Button, Label, TextInput } from "flowbite-react";
 
-export default function SignUp() {
+export default function SignupForm() {
+  const authState = useAppSelector((state) => state.auth.authState);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signupError, setSignupError] = useState("");
   const router = useRouter();
-  const [user, setUser] = useState<Partial<IUser>>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function getUser() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setUser(user);
-      setLoading(false);
+    if (authState) {
+      router.push("/");
     }
-
-    getUser();
   }, []);
 
   const handleSignUp = async () => {
-    const res = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${location.origin}/auth/callback`,
-      },
-    });
-    setUser(res.data.user);
-    router.refresh();
-    setEmail("");
-    setPassword("");
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${location.origin}/auth/callback`,
+          data: {
+            first_name: firstName,
+            last_name: lastName,
+          },
+        },
+      });
+
+      if (error) {
+        setSignupError(error.message);
+      } else {
+        setEmail("");
+        setPassword("");
+
+        router.refresh();
+        router.push("/signin");
+      }
+    } catch (e) {
+      setSignupError(e.message);
+    }
   };
-
-  const handleSignIn = async () => {
-    const res = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    setUser(res.data.user);
-    router.refresh();
-    setEmail("");
-    setPassword("");
-  };
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.refresh();
-    setUser(null);
-  };
-
-  console.log({ loading, user });
-
-  if (loading) {
-    return <>Test</>;
-  }
-
-  if (user) {
-    return (
-      <div className="h-screen flex flex-col justify-center items-center bg-gray-100">
-        <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md w-96 text-center">
-          <h1 className="mb-4 text-xl font-bold text-gray-700 dark:text-gray-300">
-            You're already logged in
-          </h1>
-          <button
-            onClick={handleLogout}
-            className="w-full p-3 rounded-md bg-red-500 text-white hover:bg-red-600 focus:outline-none"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <main className="h-screen flex items-center justify-center bg-gray-800 p-6">
-      <div className="bg-gray-900 p-8 rounded-lg shadow-md w-96">
-        <input
-          type="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          className="mb-4 w-full p-3 rounded-md border border-gray-700 bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
-        />
-        <input
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          className="mb-4 w-full p-3 rounded-md border border-gray-700 bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
-        />
-        <button
-          onClick={handleSignUp}
-          className="w-full mb-2 p-3 rounded-md bg-blue-600 text-white hover:bg-blue-700 focus:outline-none"
-        >
-          Sign Up
-        </button>
-        <button
-          onClick={handleSignIn}
-          className="w-full p-3 rounded-md bg-gray-700 text-white hover:bg-gray-600 focus:outline-none"
-        >
-          Sign In
-        </button>
+    <section className="bg-gradient-to-b from-gray-100 to-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="pt-32 pb-12 md:pt-40 md:pb-20">
+          {/* Page header */}
+          <div className="max-w-3xl mx-auto text-center pb-8">
+            <h1 className="h1">Sign up</h1>
+          </div>
+
+          <div className="max-w-sm mx-auto">
+            <form className="flex max-w-md flex-col gap-4">
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="firstName" value="First Name" />
+                </div>
+                <TextInput
+                  id="firstName"
+                  type="text"
+                  placeholder="Type your first name here..."
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="lastName" value="Last Name" />
+                </div>
+                <TextInput
+                  id="lastName"
+                  type="text"
+                  placeholder="Type your last name here..."
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="email" value="Email" />
+                </div>
+                <TextInput
+                  id="email"
+                  type="email"
+                  placeholder="Type your email here..."
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="password" value="Password" />
+                </div>
+                <TextInput
+                  id="password"
+                  type="password"
+                  placeholder="Type your password here..."
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <Button type="submit" onClick={handleSignUp}>
+                Sign up
+              </Button>
+              {signupError && <p color="red">{signupError}</p>}
+            </form>
+          </div>
+        </div>
       </div>
-    </main>
+    </section>
   );
 }

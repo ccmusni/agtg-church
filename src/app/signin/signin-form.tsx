@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -8,12 +6,13 @@ import supabase from "@/utils/supabase";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { setAuthState } from "@/store/authSlice";
 import { Button, Label, TextInput } from "flowbite-react";
+import { setUserState } from "@/store/userSlice";
 
 export default function SigninForm() {
   const dispatch = useAppDispatch();
   const authState = useAppSelector((state) => state.auth.authState);
   const [loading, setLoading] = useState(false);
-  const [signError, setSigninError] = useState("");
+  const [signinError, setSigninError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -34,6 +33,7 @@ export default function SigninForm() {
 
     if (data?.user) {
       dispatch(setAuthState(true));
+      dispatch(setUserState(data.user));
       setEmail("");
       setPassword("");
 
@@ -119,7 +119,7 @@ export default function SigninForm() {
               <Button type="submit" onClick={handleSignIn}>
                 Sign in
               </Button>
-              {signError && <p color="red">{signError}</p>}
+              {signinError && <p color="red">{signinError}</p>}
             </form>
           </div>
         </div>

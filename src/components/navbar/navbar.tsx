@@ -16,13 +16,39 @@ import { NAV_ITEMS } from "@app/constants";
 
 import NavbarItem from "./navbar-item";
 import NavbarDropdown from "./navbar-dropdown";
+import { useAppSelector } from "@/store";
+import supabase from "@/utils/supabase";
 
 export default function Navbar() {
+  // const userState = useAppSelector((state) => state.user.userState);
   const [top, setTop] = useState<boolean>(true);
 
   const scrollHandler = () => {
     window.scrollY > 10 ? setTop(false) : setTop(true);
   };
+
+  // const getProfile = async () => {
+  //   const { data: profile } = await supabase
+  //     .from("profiles")
+  //     .select("id, username");
+
+  //   return profile;
+  // };
+
+  // useEffect(() => {
+  //   // console.log(getProfile());
+  // }, []);
+
+  // useEffect(() => {
+  //   async function getUser() {
+  //     const {
+  //       data: { user },
+  //     } = await supabase.auth.getUser();
+  //     console.log(user);
+  //   }
+
+  //   getUser();
+  // }, []);
 
   useEffect(() => {
     scrollHandler();

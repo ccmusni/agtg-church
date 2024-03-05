@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IUser } from "User";
+import { User } from "@supabase/auth-helpers-nextjs";
 
 export interface IUserState {
-  userState: IUser;
+  userState: User;
 }
 
 const initialState: IUserState = {
@@ -14,7 +14,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserState: (state, action: PayloadAction<IUser>) => {
+    setUserState: (state, action: PayloadAction<User>) => {
       state.userState = action.payload;
     },
   },

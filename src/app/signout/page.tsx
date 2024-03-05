@@ -1,11 +1,12 @@
 "use client";
 
 import ReduxProvider from "@/store/redux-provider";
-import SigninForm from "./signin-form";
-export default function Signin() {
+import SignoutForm from "./signout-form";
+
+export default function Logout() {
   return (
     <ReduxProvider>
-      <SigninForm />
+      <SignoutForm />
     </ReduxProvider>
   );
 }
