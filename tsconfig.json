@@ -22,7 +22,7 @@
       "@images/*": ["./public/images/*"],
       "@videos/*": ["./public/videos/*"],
       "@app/*": ["./src/app/*"],
-      "@components/*": ["./src/components/*"]
+      "@components/*": ["./src/components/*"],
     }
   },
   "include": [
