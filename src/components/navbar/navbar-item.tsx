@@ -1,8 +1,8 @@
 import { usePathname } from "next/navigation";
-import { INavItem } from "Nav";
+import { INavbarItem } from "Navbar";
 import { Navbar } from "flowbite-react";
 
-export default function NavbarItem({ item }: { item: INavItem }) {
+export default function NavbarItem({ item }: { item: INavbarItem }) {
   const path = usePathname();
 
   return (

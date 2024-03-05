@@ -1,6 +1,6 @@
-import { INavItem } from "Nav";
+import { INavbarItem } from "Navbar";
 
-export const NAV_ITEMS: INavItem[] = [
+export const NAV_ITEMS: INavbarItem[] = [
   {
     label: "Home",
     path: "/",

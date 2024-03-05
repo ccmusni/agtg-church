@@ -1,9 +1,9 @@
-declare module 'Nav' {
+declare module 'Navbar' {
 
-  interface INavItem {
+  interface INavbarItem {
     label: string;
     path: string;
     hasSubMenu?: boolean;
-    subMenuItems?: INavItem[];
+    subMenuItems?: INavbarItem[];
   }
 }
