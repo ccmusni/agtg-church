@@ -1,7 +1,4 @@
-export const metadata = {
-  title: "Home - AGTG Church",
-  description: "Christian Church",
-};
+"use client";
 
 import Hero from "@components/hero";
 import Branches from "@/components/branches/branches";

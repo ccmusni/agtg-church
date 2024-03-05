@@ -1,7 +1,7 @@
 declare module 'User' {
   interface IUser {
     id: string;
-    email: string;
-    role: string;
+    email?: string;
+    role?: string;
   }
 }
