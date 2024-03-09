@@ -50,6 +50,10 @@ export default function Navbar() {
     }
   }, []);
 
+  const isShow = (forAdmin: boolean): boolean => {
+    return (forAdmin && authState) || !forAdmin;
+  };
+
   return (
     <FlowbiteNavbar
       fluid
@@ -65,15 +69,20 @@ export default function Navbar() {
       <div className="flex items-center justify-between max-w-6xl mx-auto px-2 sm:px-6 md:w-full ">
         <NavbarCollapse>
           {NAV_ITEMS.map((item, idx) => {
-            return item.hasSubMenu ? (
-              <div key={idx} className="text-sm md:text-lg p-3 md:p-0">
-                <NavbarDropdown label={item.label} items={item.subMenuItems} />
-              </div>
-            ) : (
-              <div key={idx} className="text-sm md:text-lg">
-                <NavbarItem item={item} />{" "}
-              </div>
-            );
+            return item.hasSubMenu
+              ? isShow(item.forAdmin) && (
+                  <div key={idx} className="text-sm md:text-lg p-3 md:p-0">
+                    <NavbarDropdown
+                      label={item.label}
+                      items={item.subMenuItems}
+                    />
+                  </div>
+                )
+              : isShow(item.forAdmin) && (
+                  <div key={idx} className="text-sm md:text-lg">
+                    <NavbarItem item={item} />{" "}
+                  </div>
+                );
           })}
         </NavbarCollapse>
 

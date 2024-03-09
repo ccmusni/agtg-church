@@ -24,7 +24,7 @@ export const NAV_ITEMS: INavbarItem[] = [
         hasSubMenu: true,
         subMenuItems: [
           { label: "Gallery", path: "/ministries-ya" },
-          { label: "Members", path: "/ministries-ya/members" },
+          { label: "Members", path: "/ministries-ya/members", forAdmin: true },
           { label: "Online Cell Group", path: "/ministries-ya/online-cg" },
         ],
       },
