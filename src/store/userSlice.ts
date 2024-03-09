@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { User } from "@supabase/auth-helpers-nextjs";
 
 export interface IUserState {
-  userState: User;
+  userState: User | null;
 }
 
 const initialState: IUserState = {
