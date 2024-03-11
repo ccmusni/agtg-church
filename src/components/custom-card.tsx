@@ -25,7 +25,7 @@ export default function CustomCard({
     <Card
       className="max-w-sm w-full h-50"
       renderImage={() =>
-        imgSrc ? (
+        !!imgSrc ? (
           <Image
             className="w-full"
             width={355}
