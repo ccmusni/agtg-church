@@ -1,5 +1,4 @@
-import { ChangeEvent, useRef, useState } from "react";
-import Image from "next/image";
+import { ChangeEvent, useState } from "react";
 
 import {
   Button,
@@ -16,17 +15,14 @@ import { TServiceOnSaveProps } from "@/app/admin/cms/services/page";
 export default function ServiceItemAddEditModal({
   service,
   open,
-  onUploadImage,
   onSave,
   onClose,
 }: {
   service?: IService;
   open?: boolean;
-  onUploadImage?: (e: ChangeEvent<HTMLInputElement>, id: number) => void;
   onSave?: ({ title, description }: Partial<TServiceOnSaveProps>) => void;
   onClose?: () => void;
 }) {
-  const fileUploadRef = useRef(null);
   const [values, setValues] = useState({
     title: service?.title || "",
     description: service?.description || "",
@@ -42,6 +38,8 @@ export default function ServiceItemAddEditModal({
     onSave({
       ...values,
     });
+
+    onClose();
   };
 
   return (

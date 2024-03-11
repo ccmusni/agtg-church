@@ -1,25 +1,25 @@
+import { Table } from "flowbite-react";
+import { HiOutlinePencil } from "react-icons/hi";
+
 import { IMember } from "Member";
 
-export default function ({ member }: { member: IMember }) {
+export default function MemberTableRow({ member }: { member: IMember }) {
   return (
-    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-      <th
-        scope="row"
-        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-      >
+    <Table.Row>
+      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
         {member?.name}
-      </th>
-      <td className="px-6 py-4">{member?.nickname}</td>
-      <td className="px-6 py-4">{member?.role}</td>
-      <td className="px-6 py-4">{member?.contact_number}</td>
-      <td className="px-6 py-4 text-right">
+      </Table.Cell>
+      <Table.Cell>{member?.nickname}</Table.Cell>
+      <Table.Cell>{member?.role}</Table.Cell>
+      <Table.Cell>{member?.contact_number}</Table.Cell>
+      <Table.Cell>
         <a
           href="#"
-          className="font-medium text-blue-600 dark:text-blue-500 hover:underline disabled"
+          className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
         >
-          Edit
+          <HiOutlinePencil className="mr-3 h-4 w-4" />
         </a>
-      </td>
-    </tr>
+      </Table.Cell>
+    </Table.Row>
   );
 }

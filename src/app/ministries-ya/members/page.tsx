@@ -1,43 +1,43 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import supabase from "@/utils/supabase";
-
-import { IMember } from "Member";
+import { Button } from "flowbite-react";
+import { HiUserAdd } from "react-icons/hi";
 
 import Hero from "@components/hero";
 import Loading from "@/components/ui/loading";
-import MemberTableRow from "./member-table-row";
+
+import { IMember } from "Member";
+import { addUpdateMember, fetchMembers } from "@/services/members.service";
+
+import MembersTable from "./members-table";
+import MemberItemAddEditModal, {
+  TMemberOnSaveProps,
+} from "./member-item-add-edit-modal";
 
 export default function Members() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
   const [members, setMembers] = useState<IMember[]>();
+  const [openModal, setOpenModal] = useState(false);
 
-  const fetchMembers = async () => {
-    const { data, error } = await supabase.from("ya-members").select(`
-      *,
-      roles (
-        description
-      )
-    `);
+  const fetchStaticMembers = async () => {
+    const { data, error } = await fetchMembers();
 
     if (error) {
       setFetchError("Could not fetch the YA members");
       setMembers(null);
-      console.log(error);
     }
 
     if (data?.length) {
       const fetchedMembers: IMember[] = data.map((d) => ({
-        id: d["id"],
+        ...d,
         name: `${d["first_name"]} ${
           d["middle_name"] ? Array.from(d["middle_name"])[0] + ". " : ""
         }${d["last_name"]}` as string,
-        nickname: d["nickname"] as string,
-        role: d["roles"]["description"] as string,
-        contact_number: d["contact_number"] as string,
+        role: d["roles"]?.["description"] as string,
       }));
+
       setMembers(fetchedMembers);
       setIsLoading(false);
       setFetchError(null);
@@ -45,8 +45,46 @@ export default function Members() {
   };
 
   useEffect(() => {
-    fetchMembers();
-  }, []);
+    if (!members?.length && !isLoading) {
+      setIsLoading(true);
+      fetchStaticMembers();
+    }
+  }, [members]);
+
+  const handleSave = async ({
+    id,
+    last_name,
+    first_name,
+    middle_name,
+    nickname,
+    contact_number,
+    role_id,
+  }: TMemberOnSaveProps) => {
+    setIsLoading(true);
+    setFetchError("");
+
+    const { error } = await addUpdateMember(
+      id,
+      last_name,
+      first_name,
+      middle_name,
+      nickname,
+      contact_number,
+      1
+    );
+
+    if (!error) {
+      fetchStaticMembers();
+    } else {
+      setFetchError(error.message);
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <>
@@ -61,36 +99,27 @@ export default function Members() {
           <div className="pt-8 md:pt-16 pb-8 md:pb-32">
             <div className="relative overflow-x-auto">
               {fetchError && <p>{fetchError}</p>}
+
               {isLoading ? (
                 <Loading />
               ) : (
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">
-                        NAME
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        NICKNAME
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        ROLE
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        CONTACT NUMBER
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        <span className="sr-only">Edit</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {!!members?.length &&
-                      members.map((member) => (
-                        <MemberTableRow key={member?.id} member={member} />
-                      ))}
-                  </tbody>
-                </table>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <Button
+                    style={{ width: 130, alignSelf: "flex-end" }}
+                    onClick={() => setOpenModal(true)}
+                  >
+                    <HiUserAdd className="mr-2 h-5 w-5" />
+                    Add User
+                  </Button>
+                  <MembersTable members={members} />
+                </div>
+              )}
+              {openModal && (
+                <MemberItemAddEditModal
+                  open={openModal}
+                  onSave={handleSave}
+                  onClose={handleCloseModal}
+                />
               )}
             </div>
           </div>

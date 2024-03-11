@@ -118,10 +118,7 @@ export default function ServicesCms() {
               {openModal && (
                 <ServiceItemAddEditModal
                   open={openModal}
-                  onSave={({ title, description }) => {
-                    handleSave({ title, description });
-                    handleCloseModal();
-                  }}
+                  onSave={handleSave}
                   onClose={handleCloseModal}
                 />
               )}
