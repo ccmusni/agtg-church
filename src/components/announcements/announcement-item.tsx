@@ -2,9 +2,9 @@ import { ChangeEvent, useMemo, useState } from "react";
 import { Button, ButtonGroup } from "flowbite-react";
 
 import { IAnnouncement } from "Announcement";
-import { TAnnouncementOnSaveProps } from "@/app/admin/cms/announcements/page";
 
 import CustomCard from "../custom-card";
+import { TAnnouncementOnSaveProps } from "./announcements-cms";
 import AnnouncementItemAddEditModal from "./announcement-item-add-edit-modal";
 
 const CDNURL =

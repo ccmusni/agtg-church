@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlinePlus } from "react-icons/hi";
 import { Button } from "flowbite-react";
 
@@ -81,51 +81,37 @@ export default function ServicesCms() {
   };
 
   return (
-    <section className="relative pt-16">
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="pt-8 md:pt-16">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="h2 mb-4">Services</h1>
-          </div>
-
-          {/* Section content */}
-          <div className="pt-4 md:pt-8 pb-8 md:pb-16">
-            {/* Content */}
-            {fetchError && <p>{fetchError}</p>}
-            <>
-              {isLoading && <Loading />}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 justify-items-center">
-                <CustomCard>
-                  <Button
-                    color="gray"
-                    className="h-full w-full border-0"
-                    onClick={() => setOpenModal(true)}
-                  >
-                    <HiOutlinePlus className="h-full w-full text-5xl" />
-                  </Button>
-                </CustomCard>
-                {!!services?.length &&
-                  services.map((service) => (
-                    <ServiceItem
-                      key={service.id}
-                      service={service}
-                      admin
-                      onSave={handleSave}
-                      onDelete={handleDelete}
-                    />
-                  ))}
-              </div>
-              {openModal && (
-                <ServiceItemAddEditModal
-                  open={openModal}
-                  onSave={handleSave}
-                  onClose={handleCloseModal}
-                />
-              )}
-            </>
-          </div>
-        </div>
+    <>
+      {fetchError && <p>{fetchError}</p>}
+      {isLoading && <Loading />}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 justify-items-center">
+        <CustomCard>
+          <Button
+            color="gray"
+            className="h-full w-full border-0"
+            onClick={() => setOpenModal(true)}
+          >
+            <HiOutlinePlus className="h-full w-full text-5xl" />
+          </Button>
+        </CustomCard>
+        {!!services?.length &&
+          services.map((service) => (
+            <ServiceItem
+              key={service.id}
+              service={service}
+              admin
+              onSave={handleSave}
+              onDelete={handleDelete}
+            />
+          ))}
       </div>
-    </section>
+      {openModal && (
+        <ServiceItemAddEditModal
+          open={openModal}
+          onSave={handleSave}
+          onClose={handleCloseModal}
+        />
+      )}
+    </>
   );
 }

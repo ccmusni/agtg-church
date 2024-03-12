@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Button, ButtonGroup } from "flowbite-react";
 
 import { IService } from "Service";
-import { TServiceOnSaveProps } from "@/app/admin/cms/services/page";
 
 import CustomCard from "../custom-card";
+import { TServiceOnSaveProps } from "./services-cms";
 import ServiceItemAddEditModal from "./service-item-add-edit-modal";
 
 export default function ServiceItem({

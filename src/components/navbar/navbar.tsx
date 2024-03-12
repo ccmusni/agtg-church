@@ -105,7 +105,9 @@ export default function Navbar() {
                 {userState?.email}
               </span>
             </DropdownHeader>
-            <DropdownItem href="/cms">Content Management System</DropdownItem>
+            <DropdownItem href="/content-editor">
+              Content Management System
+            </DropdownItem>
             <DropdownItem href="#">Settings</DropdownItem>
             <DropdownDivider />
             <DropdownItem href="/signout">Sign out</DropdownItem>
