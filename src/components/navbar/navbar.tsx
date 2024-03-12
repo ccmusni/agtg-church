@@ -117,7 +117,7 @@ export default function Navbar() {
             className="text-sm md:text-lg p-3 md:p-0 hover:text-cyan-700 font-medium"
             href="/signin"
           >
-            Sign in
+            Admin
           </Link>
         )}
       </div>

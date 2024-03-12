@@ -1,7 +1,6 @@
-declare module 'Announcement' {
-
+declare module "Announcement" {
   interface IAnnouncement {
-    id: number,
+    id: number;
     title: string;
     details?: string;
     img_file_name: string;

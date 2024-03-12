@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 
 import { IAnnouncement } from "Announcement";
-import { fetchAnnouncements } from "@/services/announcement.service";
+import { fetchAnnouncements } from "@/services/announcements.service";
 import Loading from "../ui/loading";
 
 import AnnouncementItem from "./announcement-item";
 
 export default function Announcements() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
   const [announcements, setAnnouncements] = useState<IAnnouncement[]>();
 
@@ -23,14 +23,17 @@ export default function Announcements() {
 
     if (data?.length) {
       const fetchedAnnouncements: IAnnouncement[] = data;
-
       setAnnouncements(fetchedAnnouncements);
-      setIsLoading(false);
       setFetchError(null);
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
+    // if (!announcements?.length && !isLoading) {
+    //   fetchStaticAnnouncements();
+    // }
     fetchStaticAnnouncements();
   }, []);
 

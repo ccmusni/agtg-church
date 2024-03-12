@@ -40,9 +40,10 @@ export default function ServicesCms() {
       const fetchedServices: IService[] = data;
 
       setServices(fetchedServices);
-      setIsLoading(false);
       setFetchError(null);
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {

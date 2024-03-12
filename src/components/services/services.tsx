@@ -25,14 +25,17 @@ export default function Services() {
       const fetchedServices: IService[] = data;
 
       setServices(fetchedServices);
-      setIsLoading(false);
       setFetchError(null);
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchStaticServices();
-  }, []);
+    if (!services?.length && !isLoading) {
+      fetchStaticServices();
+    }
+  }, [services]);
 
   return (
     <section className="relative">

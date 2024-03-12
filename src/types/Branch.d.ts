@@ -1,8 +1,8 @@
-declare module 'Branch' {
-
+declare module "Branch" {
   interface IBranch {
-    id: number,
+    id: number;
     name: string;
     address: string;
+    img_file_name: string;
   }
 }

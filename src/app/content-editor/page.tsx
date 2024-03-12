@@ -7,6 +7,7 @@ import {
 import PageWrapper from "@/components/page-wrapper";
 import AnnouncementsCms from "@/components/announcements/announcements-cms";
 import ServicesCms from "@/components/services/services-cms";
+import BranchesCms from "@/components/branches/branches-cms";
 
 export const metadata = {
   title: "Content Management System - AGTG Church",
@@ -17,6 +18,12 @@ export default function ContentManagementSystem() {
   return (
     <PageWrapper>
       <Accordion collapseAll className="mb-8">
+        <AccordionPanel>
+          <AccordionTitle>Branches</AccordionTitle>
+          <AccordionContent>
+            <BranchesCms />
+          </AccordionContent>
+        </AccordionPanel>
         <AccordionPanel>
           <AccordionTitle>Announcements</AccordionTitle>
           <AccordionContent>

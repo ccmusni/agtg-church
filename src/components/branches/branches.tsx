@@ -4,37 +4,38 @@ import { useState, useEffect } from "react";
 import supabase from "@/utils/supabase";
 
 import { IBranch } from "Branch";
+import { fetchbranches } from "@/services/branches.service";
+
 import Loading from "../ui/loading";
 import BranchList from "./branch-list";
 
 export default function Branches() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
   const [branches, setBranches] = useState<IBranch[]>();
 
-  const fetchBranches = async () => {
-    const { data, error } = await supabase
-      .from("branches")
-      .select(`id, name, address`);
+  const fetchStaticBranches = async () => {
+    const { data, error } = await fetchbranches();
 
     if (error) {
       setFetchError("Could not fetch the Branches");
       setBranches(null);
-      console.log(error);
     }
 
     if (data?.length) {
       const fetchedBranches: IBranch[] = data;
-
       setBranches(fetchedBranches);
-      setIsLoading(false);
       setFetchError(null);
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchBranches();
-  }, []);
+    if (!branches?.length && !isLoading) {
+      fetchStaticBranches();
+    }
+  }, [branches]);
 
   return (
     <section className="relative">

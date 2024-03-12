@@ -4,44 +4,44 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "flowbite-react";
 import { HiOutlinePlus } from "react-icons/hi";
 
-import { IAnnouncement } from "Announcement";
+import { IBranch } from "Branch";
 import Loading from "@/components/ui/loading";
 import CustomCard from "../custom-card";
 import {
-  fetchAnnouncements,
-  addUpdateAnnouncement,
-  deleteAnnouncement,
-} from "@/services/announcements.service";
-import AnnouncementItem from "./announcement-item";
-import AnnouncementItemAddEditModal from "./announcement-item-add-edit-modal";
+  fetchbranches,
+  addUpdateBranch,
+  deleteBranch,
+} from "@/services/branches.service";
+import BranchItem from "./branch-item";
+import BranchItemAddEditModal from "./branches-item-add-edit-modal";
 
-export type TAnnouncementOnSaveProps = {
+export type TBranchOnSaveProps = {
   id?: number;
-  title: string;
-  details: string;
+  name: string;
+  address: string;
   oldFileName?: string;
 };
 
-export default function AnnouncementsCms() {
+export default function BranchesCms() {
   const [isLoading, setIsLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
-  const [announcements, setAnnouncements] = useState<IAnnouncement[]>();
+  const [branches, setBranches] = useState<IBranch[]>();
   const [file, setFile] = useState<File>();
   const [imgPreviewUrlSrc, setImgPreviewUrlSrc] = useState("");
   const [openModal, setOpenModal] = useState(false);
 
-  const fetchStaticAnnouncements = async () => {
-    const { data, error } = await fetchAnnouncements();
+  const fetchStaticBranches = async () => {
+    const { data, error } = await fetchbranches();
 
     if (error) {
-      setFetchError("Could not fetch the Announcements");
-      setAnnouncements(null);
+      setFetchError("Could not fetch the Branches");
+      setBranches(null);
     }
 
     if (data?.length) {
-      const fetchedAnnouncements: IAnnouncement[] = data;
+      const fetchedBranches: IBranch[] = data;
 
-      setAnnouncements(fetchedAnnouncements);
+      setBranches(fetchedBranches);
       setFetchError(null);
     }
 
@@ -49,11 +49,11 @@ export default function AnnouncementsCms() {
   };
 
   useEffect(() => {
-    if (!announcements?.length && !isLoading) {
+    if (!branches?.length && !isLoading) {
       setIsLoading(true);
-      fetchStaticAnnouncements();
+      fetchStaticBranches();
     }
-  }, [announcements]);
+  }, [branches]);
 
   const handleUploadImage = (e: ChangeEvent<HTMLInputElement>, id: number) => {
     const newFile = e.target.files[0];
@@ -64,33 +64,33 @@ export default function AnnouncementsCms() {
 
   const handleSave = async ({
     id,
-    title,
-    details,
+    name,
+    address,
     oldFileName,
-  }: TAnnouncementOnSaveProps) => {
+  }: TBranchOnSaveProps) => {
     setIsLoading(true);
 
-    const { error } = await addUpdateAnnouncement(
+    const { error } = await addUpdateBranch(
       id,
-      title,
-      details,
+      name,
+      address,
       oldFileName,
       file
     );
 
     if (!error) {
       setImgPreviewUrlSrc("");
-      fetchStaticAnnouncements();
+      fetchStaticBranches();
     }
   };
 
   const handleDelete = (id: number) => {
     setIsLoading(true);
 
-    const status = deleteAnnouncement(id);
+    const status = deleteBranch(id);
 
     status.finally(() => {
-      fetchStaticAnnouncements();
+      fetchStaticBranches();
     });
   };
 
@@ -108,11 +108,11 @@ export default function AnnouncementsCms() {
             <HiOutlinePlus className="h-full w-full text-5xl" />
           </Button>
         </CustomCard>
-        {!!announcements?.length &&
-          announcements.map((announcement) => (
-            <AnnouncementItem
-              key={announcement.id}
-              announcement={announcement}
+        {!!branches?.length &&
+          branches.map((branch) => (
+            <BranchItem
+              key={branch.id}
+              branch={branch}
               admin
               imgPreviewUrlSrc={imgPreviewUrlSrc}
               onUploadImage={handleUploadImage}
@@ -122,12 +122,12 @@ export default function AnnouncementsCms() {
           ))}
       </div>
       {openModal && (
-        <AnnouncementItemAddEditModal
+        <BranchItemAddEditModal
           imgSrc={imgPreviewUrlSrc}
           open={openModal}
           onUploadImage={handleUploadImage}
-          onSave={({ title, details }) => {
-            handleSave({ title, details });
+          onSave={({ name, address }) => {
+            handleSave({ name, address });
             setOpenModal(false);
           }}
           onClose={() => setOpenModal(false)}

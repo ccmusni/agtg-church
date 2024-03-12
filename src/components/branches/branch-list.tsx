@@ -6,6 +6,9 @@ import { IBranch } from "Branch";
 
 import BranchesTemplate from "@images/branches-template.jpg";
 
+const CDNURL =
+  "https://yrrhmzptqtwwbvytrpjv.supabase.co/storage/v1/object/public/images/";
+
 export default function BranchList({ branches }: { branches: IBranch[] }) {
   const [tab, setTab] = useState<number>(1);
   const tabs = useRef<HTMLDivElement>(null);
@@ -78,7 +81,12 @@ export default function BranchList({ branches }: { branches: IBranch[] }) {
                   <div className="relative inline-flex flex-col">
                     <Image
                       className="md:max-w-none mx-auto rounded"
-                      src={BranchesTemplate}
+                      src={
+                        branch.img_file_name
+                          ? `${CDNURL}branches/${branch.id}/${branch.img_file_name}`
+                          : BranchesTemplate
+                      }
+                      height={500}
                       width={500}
                       alt="Church Image"
                     />

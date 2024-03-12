@@ -10,7 +10,7 @@ import {
 } from "flowbite-react";
 
 import { IService } from "Service";
-import { TServiceOnSaveProps } from "@/app/admin/cms/services/page";
+import { TServiceOnSaveProps } from "./services-cms";
 
 export default function ServiceItemAddEditModal({
   service,

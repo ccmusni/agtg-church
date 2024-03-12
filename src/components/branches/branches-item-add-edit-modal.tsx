@@ -10,31 +10,31 @@ import {
   FileInput,
 } from "flowbite-react";
 
-import { IAnnouncement } from "Announcement";
-import { TAnnouncementOnSaveProps } from "./announcements-cms";
+import { IBranch } from "Branch";
+import { TBranchOnSaveProps } from "./branches-cms";
 
 const CDNURL =
   "https://yrrhmzptqtwwbvytrpjv.supabase.co/storage/v1/object/public/images/";
 
-export default function AnnouncementItemAddEditModal({
-  announcement,
+export default function BranchItemAddEditModal({
+  branch,
   imgSrc,
   open,
   onUploadImage,
   onSave,
   onClose,
 }: {
-  announcement?: IAnnouncement;
+  branch?: IBranch;
   imgSrc?: string;
   open?: boolean;
   onUploadImage?: (e: ChangeEvent<HTMLInputElement>, id: number) => void;
-  onSave?: ({ title, details }: Partial<TAnnouncementOnSaveProps>) => void;
+  onSave?: ({ name, address }: Partial<TBranchOnSaveProps>) => void;
   onClose?: () => void;
 }) {
   const fileUploadRef = useRef(null);
   const [values, setValues] = useState({
-    title: announcement?.title || "",
-    details: announcement?.details || "",
+    name: branch?.name || "",
+    address: branch?.address || "",
   });
 
   const handleTextChange = ({
@@ -55,7 +55,7 @@ export default function AnnouncementItemAddEditModal({
       <Modal.Body>
         <div className="space-y-3">
           <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-            Edit Announcement
+            Edit Branch
           </h3>
           {imgSrc ? (
             <Image
@@ -63,7 +63,7 @@ export default function AnnouncementItemAddEditModal({
               width={370}
               height={240}
               src={imgSrc}
-              alt={values.title}
+              alt={values.name}
               style={{
                 height: 240,
                 minHeight: 240,
@@ -87,30 +87,30 @@ export default function AnnouncementItemAddEditModal({
             id="file-upload"
             ref={fileUploadRef}
             sizing="sm"
-            onChange={(e) => onUploadImage(e, announcement?.id)}
+            onChange={(e) => onUploadImage(e, branch?.id)}
           />
 
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="title" value="Title" />
+              <Label htmlFor="name" value="Name" />
             </div>
             <TextInput
-              id="title"
-              placeholder="Title here..."
-              value={values.title}
+              id="name"
+              placeholder="name here..."
+              value={values.name}
               required
               onChange={handleTextChange}
             />
           </div>
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="details" value="Details" />
+              <Label htmlFor="address" value="Address" />
             </div>
             <Textarea
-              id="details"
-              placeholder="Details here..."
+              id="address"
+              placeholder="address here..."
               rows={4}
-              value={values.details}
+              value={values.address}
               onChange={handleTextChange}
             />
           </div>
