@@ -6,7 +6,7 @@ import { HiUserAdd } from "react-icons/hi";
 
 import Hero from "@components/hero";
 import Loading from "@/components/ui/loading";
-import PopupModal from "@/components/PopupModal";
+import PopupModal from "@/components/popup-modal";
 
 import { IMember } from "Member";
 import { IRole } from "Role";

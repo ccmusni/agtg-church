@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from "react";
-import { Button, Modal, Label, TextInput, Badge } from "flowbite-react";
+import { Button, Modal, Label, TextInput } from "flowbite-react";
 import InputMask from "react-input-mask";
 
-import SelectInput from "@/components/SelectInput";
+import SelectInput from "@/components/select-input";
 
 import { IMember } from "Member";
 import { IRole } from "Role";
