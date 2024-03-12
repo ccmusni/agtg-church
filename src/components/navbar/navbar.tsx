@@ -62,11 +62,11 @@ export default function Navbar() {
         !top ? "transition duration-300 shadow-lg" : ""
       }`}
     >
-      <div className="flex md:order-2">
+      <div className="flex md:order-2 self-start">
         <NavbarToggle />
       </div>
 
-      <div className="flex items-center justify-between max-w-6xl mx-auto px-2 sm:px-6 md:w-full ">
+      <div className="flex md:items-center justify-between max-w-6xl md:mx-auto px-2 sm:px-6 w-auto md:w-full flex-col md:flex-row">
         <NavbarCollapse>
           {NAV_ITEMS.map((item, idx) => {
             return item.hasSubMenu
