@@ -19,16 +19,16 @@ export const addUpdateMember = async (
   last_name: string,
   first_name: string,
   middle_name: string,
-  contact_number: string,
   nickname: string,
-  role_id: number
+  contact_number: string,
+  role_id: string | number
 ) => {
   const fields = {
     last_name,
     first_name,
     middle_name,
-    contact_number,
     nickname,
+    contact_number,
     role_id,
   };
   return id

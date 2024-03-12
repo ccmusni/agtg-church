@@ -7,7 +7,7 @@ declare module "Member" {
     middle_name?: string;
     nickname?: string;
     contact_number: string;
-    role_id?: number;
+    role_id?: string | number;
     role: string;
   }
 }

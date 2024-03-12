@@ -6,9 +6,16 @@ import { HiUserAdd } from "react-icons/hi";
 
 import Hero from "@components/hero";
 import Loading from "@/components/ui/loading";
+import PopupModal from "@/components/PopupModal";
 
 import { IMember } from "Member";
-import { addUpdateMember, fetchMembers } from "@/services/members.service";
+import { IRole } from "Role";
+import {
+  addUpdateMember,
+  deleteMember,
+  fetchMembers,
+} from "@/services/members.service";
+import { fetchRoles } from "@/services/roles.service";
 
 import MembersTable from "./members-table";
 import MemberItemAddEditModal, {
@@ -16,10 +23,14 @@ import MemberItemAddEditModal, {
 } from "./member-item-add-edit-modal";
 
 export default function Members() {
-  const [isLoading, setIsLoading] = useState(false);
-  const [fetchError, setFetchError] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [fetchError, setFetchError] = useState<string>("");
   const [members, setMembers] = useState<IMember[]>();
-  const [openModal, setOpenModal] = useState(false);
+  const [roles, setRoles] = useState<IRole[]>();
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openConfirmationModal, setOpenConfirmationModal] =
+    useState<boolean>(false);
+  const [selectedMemberId, setSelectedMemberId] = useState<number>();
 
   const fetchStaticMembers = async () => {
     const { data, error } = await fetchMembers();
@@ -51,6 +62,28 @@ export default function Members() {
     }
   }, [members]);
 
+  const fetchStaticRoles = async () => {
+    const { data, error } = await fetchRoles();
+
+    if (error) {
+      setFetchError("Could not fetch the Roles");
+      setRoles(null);
+    }
+
+    if (data?.length) {
+      setRoles(data);
+      setIsLoading(false);
+      setFetchError(null);
+    }
+  };
+
+  useEffect(() => {
+    if (!roles?.length && !isLoading) {
+      setIsLoading(true);
+      fetchStaticRoles();
+    }
+  }, [roles]);
+
   const handleSave = async ({
     id,
     last_name,
@@ -70,7 +103,7 @@ export default function Members() {
       middle_name,
       nickname,
       contact_number,
-      1
+      role_id
     );
 
     if (!error) {
@@ -82,8 +115,19 @@ export default function Members() {
     setIsLoading(false);
   };
 
-  const handleCloseModal = () => {
-    setOpenModal(false);
+  const handleConfirmDelete = (id: number) => {
+    setOpenConfirmationModal(true);
+    setSelectedMemberId(id);
+  };
+
+  const handleDelete = () => {
+    setIsLoading(true);
+
+    const status = deleteMember(selectedMemberId);
+
+    status.finally(() => {
+      fetchStaticMembers();
+    });
   };
 
   return (
@@ -96,29 +140,44 @@ export default function Members() {
         ></div>
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="pt-8 md:pt-16 pb-8 md:pb-32">
+          <div className="pt-4 md:pt-8 pb-12 md:pb-24">
             <div className="relative overflow-x-auto">
               {fetchError && <p>{fetchError}</p>}
 
               {isLoading ? (
                 <Loading />
               ) : (
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <Button
-                    style={{ width: 130, alignSelf: "flex-end" }}
-                    onClick={() => setOpenModal(true)}
-                  >
-                    <HiUserAdd className="mr-2 h-5 w-5" />
-                    Add User
-                  </Button>
-                  <MembersTable members={members} />
+                <div className="flex flex-col">
+                  <div className="flex justify-between	">
+                    <p className="text-lg font-bold">Young Adult Members</p>
+                    <Button onClick={() => setOpenModal(true)}>
+                      <HiUserAdd className="mr-2 h-5 w-5" />
+                      Add
+                    </Button>
+                  </div>
+                  <MembersTable
+                    members={members}
+                    roles={roles}
+                    onSave={handleSave}
+                    onDelete={handleConfirmDelete}
+                  />
                 </div>
               )}
               {openModal && (
                 <MemberItemAddEditModal
                   open={openModal}
+                  roles={roles}
                   onSave={handleSave}
-                  onClose={handleCloseModal}
+                  onClose={() => setOpenModal(false)}
+                />
+              )}
+              {openConfirmationModal && (
+                <PopupModal
+                  open={openConfirmationModal}
+                  message="Are you sure you want to delete this member?"
+                  onSubmit={handleDelete}
+                  submitColor="failure"
+                  onClose={() => setOpenConfirmationModal(false)}
                 />
               )}
             </div>

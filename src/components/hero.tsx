@@ -34,9 +34,9 @@ export default function Hero() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Hero content */}
-        <div className="pt-32 pb-12 md:pt-40 md:pb-20">
+        <div className="pt-12 md:pt-24 ">
           {/* Section header */}
-          <div className="text-center pb-12 md:pb-16">
+          <div className="text-center pb-8">
             <h1
               className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4"
               data-aos="zoom-y-out"

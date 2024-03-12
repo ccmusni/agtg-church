@@ -1,9 +1,11 @@
 import { ChangeEvent, useState } from "react";
+import { Button, Modal, Label, TextInput, Badge } from "flowbite-react";
+import InputMask from "react-input-mask";
 
-import { Button, Modal, Label, TextInput } from "flowbite-react";
+import SelectInput from "@/components/SelectInput";
 
 import { IMember } from "Member";
-
+import { IRole } from "Role";
 export type TMemberOnSaveProps = {
   id: number;
   last_name: string;
@@ -11,17 +13,19 @@ export type TMemberOnSaveProps = {
   middle_name: string;
   contact_number: string;
   nickname: string;
-  role_id: number;
+  role_id: string | number;
 };
 
 export default function MemberItemAddEditModal({
-  member,
   open,
+  member,
+  roles = [],
   onSave,
   onClose,
 }: {
-  member?: IMember;
   open?: boolean;
+  member?: IMember;
+  roles: IRole[];
   onUploadImage?: (e: ChangeEvent<HTMLInputElement>, id: number) => void;
   onSave?: ({
     last_name,
@@ -39,8 +43,12 @@ export default function MemberItemAddEditModal({
     last_name: member?.last_name || "",
     nickname: member?.nickname || "",
     contact_number: member?.contact_number || "",
-    role_id: member?.role_id || null,
+    role_id: member?.role_id || 3,
   });
+  const roleOptions = roles.map((role) => ({
+    label: role.name,
+    value: role.id,
+  }));
 
   const handleTextChange = ({
     target,
@@ -64,8 +72,9 @@ export default function MemberItemAddEditModal({
             Add Member
           </h3>
           <div>
-            <div className="mb-2 block">
+            <div className="mb-2 block flex">
               <Label htmlFor="first_name" value="First Name" />
+              <span className="text-red-500"> *</span>
             </div>
             <TextInput
               id="first_name"
@@ -77,7 +86,7 @@ export default function MemberItemAddEditModal({
           </div>
           <div>
             <div className="mb-2 block">
-              <Label htmlFor="middle_name" value="Middle Initial (optional)" />
+              <Label htmlFor="middle_name" value="Middle Initial" />
             </div>
             <TextInput
               id="middle_name"
@@ -88,8 +97,9 @@ export default function MemberItemAddEditModal({
             />
           </div>
           <div>
-            <div className="mb-2 block">
+            <div className="mb-2 block flex">
               <Label htmlFor="last_name" value="Last Name" />
+              <span className="text-red-500"> *</span>
             </div>
             <TextInput
               id="last_name"
@@ -112,20 +122,36 @@ export default function MemberItemAddEditModal({
             />
           </div>
           <div>
-            <div className="mb-2 block">
+            <div className="mb-2 block flex">
               <Label htmlFor="contact_number" value="Contact Number" />
+              <span className="text-red-500"> *</span>
             </div>
-            <TextInput
+            <InputMask
               id="contact_number"
-              placeholder="09123456789"
+              className="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 p-2.5 text-sm rounded-lg"
+              mask="+63 (999) 999-9999"
+              maskChar="_"
+              placeholder="+63 (___) ___-____"
               value={values.contact_number}
-              required
               onChange={handleTextChange}
             />
           </div>
-          <div className="w-full">
-            <Button onClick={handleOnSave}>Save</Button>
+          <div>
+            <SelectInput
+              label="Select Role"
+              options={roleOptions}
+              value={values.role_id}
+              onChange={(value) =>
+                setValues((prev) => ({ ...prev, role_id: value }))
+              }
+            />
           </div>
+          <Modal.Footer className="flex p-0 justify-end">
+            <Button onClick={handleOnSave}>Save</Button>
+            <Button color="light" onClick={onClose}>
+              Cancel
+            </Button>
+          </Modal.Footer>
         </div>
       </Modal.Body>
     </Modal>
