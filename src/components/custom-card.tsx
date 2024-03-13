@@ -9,21 +9,25 @@ const customTheme: CustomFlowbiteTheme["card"] = {
 };
 
 export default function CustomCard({
+  customClassName,
   title,
   details,
   imgSrc,
   imgAtl,
   children,
+  horizontal = false,
 }: {
+  customClassName?: string;
   title?: string;
   details?: string;
   imgSrc?: string;
   imgAtl?: string;
-  children: ReactNode;
+  children?: ReactNode;
+  horizontal?: boolean;
 }) {
   return (
     <Card
-      className="max-w-sm w-full h-50"
+      className={`${customClassName} max-w-sm w-full h-50`}
       renderImage={() =>
         !!imgSrc ? (
           <Image
@@ -44,6 +48,7 @@ export default function CustomCard({
         )
       }
       theme={customTheme}
+      horizontal={horizontal}
     >
       <>
         {title && details && (
