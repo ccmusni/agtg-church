@@ -41,11 +41,11 @@ export default function Hero() {
               className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4"
               data-aos="zoom-y-out"
             >
-              All Glory to{" "}
+              Come and{" "}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
-                God{" "}
+                Join{" "}
               </span>
-              Church
+              us
             </h1>
             <div className="max-w-3xl mx-auto">
               <p
@@ -53,7 +53,7 @@ export default function Hero() {
                 data-aos="zoom-y-out"
                 data-aos-delay="150"
               >
-                Bringing Glory to God, Together
+                Let's bring Glory to God, Together
               </p>
             </div>
           </div>

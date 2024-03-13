@@ -10,7 +10,7 @@ import ServicesCms from "@/components/services/services-cms";
 import BranchesCms from "@/components/branches/branches-cms";
 
 export const metadata = {
-  title: "Content Management System - AGTG Church",
+  title: "Content Editor - AGTG Church",
   description: "Christian Church",
 };
 

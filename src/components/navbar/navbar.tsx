@@ -8,6 +8,7 @@ import {
   DropdownHeader,
   DropdownItem,
   Navbar as FlowbiteNavbar,
+  NavbarBrand,
   NavbarCollapse,
   NavbarToggle,
 } from "flowbite-react";
@@ -58,7 +59,7 @@ export default function Navbar() {
     <FlowbiteNavbar
       fluid
       rounded
-      className={`fixed w-full z-30 bg-white bg-opacity-95  ${
+      className={`fixed w-full z-30 bg-white bg-opacity-95 p-8 ${
         !top ? "transition duration-300 shadow-lg" : ""
       }`}
     >
@@ -67,6 +68,16 @@ export default function Navbar() {
       </div>
 
       <div className="flex md:items-center justify-between max-w-6xl md:mx-auto px-2 sm:px-6 w-auto md:w-full flex-col md:flex-row">
+        <NavbarBrand as={Link} href="/">
+          <img
+            src="/images/agtg.jpg"
+            className="mr-3 h-6 sm:h-9"
+            alt="Flowbite React Logo"
+          />
+          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+            All Glory to God Church
+          </span>
+        </NavbarBrand>
         <NavbarCollapse>
           {NAV_ITEMS.map((item, idx) => {
             return item.hasSubMenu
@@ -105,9 +116,7 @@ export default function Navbar() {
                 {userState?.email}
               </span>
             </DropdownHeader>
-            <DropdownItem href="/content-editor">
-              Content Management System
-            </DropdownItem>
+            <DropdownItem href="/content-editor">Content Editor</DropdownItem>
             <DropdownItem href="#">Settings</DropdownItem>
             <DropdownDivider />
             <DropdownItem href="/signout">Sign out</DropdownItem>
@@ -117,7 +126,8 @@ export default function Navbar() {
             className="text-sm md:text-lg p-3 md:p-0 hover:text-cyan-700 font-medium"
             href="/signin"
           >
-            Admin
+            {/* TODO: make it in a modal */}
+            Sign in
           </Link>
         )}
       </div>
