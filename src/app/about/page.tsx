@@ -2,41 +2,46 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "flowbite-react";
-import supabase from "@/utils/supabase";
-import { IService } from "Service";
 
 import Hero from "@components/hero";
 import Loading from "@/components/ui/loading";
 import CustomCard from "@/components/custom-card";
 
-export default function Services() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [fetchError, setFetchError] = useState("");
-  const [services, setServices] = useState<IService[]>();
+import { ILeadership } from "Leadership";
+import { fetchLeaderships } from "@/services/leaderships.service";
 
-  const fetchMembers = async () => {
-    const { data, error } = await supabase
-      .from("services")
-      .select(`id, title, description`);
+export default function About() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchError, setFetchError] = useState("");
+  const [leaderships, setLeaderships] = useState<ILeadership[]>();
+
+  const fetchStaticLeaderships = async () => {
+    const { data, error } = await fetchLeaderships();
 
     if (error) {
-      setFetchError("Could not fetch the Services");
-      setServices(null);
+      setFetchError("Could not fetch the Leaderships");
+      setLeaderships(null);
       console.log(error);
     }
 
     if (data?.length) {
-      const fetchedServices: IService[] = data;
+      const fetchedLeaderships: ILeadership[] = data.map((d) => ({
+        ...d,
+        honorific: d["leadership_titles"]?.["honorific"] as string,
+      }));
 
-      setServices(fetchedServices);
-      setIsLoading(false);
+      setLeaderships(fetchedLeaderships);
       setFetchError(null);
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchMembers();
-  }, []);
+    if (!leaderships?.length && !isLoading) {
+      fetchStaticLeaderships();
+    }
+  }, [leaderships]);
 
   return (
     <>
@@ -86,94 +91,19 @@ export default function Services() {
                   </p>
                 </div>
 
-                {!!services?.length &&
-                  services.map(({ title, description }, idx) => (
+                {!!leaderships?.length &&
+                  leaderships.map(({ id, name, details }) => (
                     <CustomCard
-                      key={idx}
+                      key={id}
                       customClassName="mb-4"
-                      title={title}
-                      details={description}
+                      title={name}
+                      details={details}
                       imgSrc="/images/default-profile-pic.png"
                       horizontal
                     />
                   ))}
 
-                <div className="flex justify-between p-8 max-w-6xl mx-auto">
-                  <CustomCard
-                    customClassName="mb-4"
-                    title={"NEW TO CHURCH"}
-                    details={
-                      "Visitor information to help you get to know more about our church and how you can become involved."
-                    }
-                    imgSrc="/images/branches-template.jpg"
-                  >
-                    <Button>
-                      Read more
-                      <svg
-                        className="-mr-1 ml-2 h-4 w-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </Button>
-                  </CustomCard>
-                  <CustomCard
-                    customClassName="mb-4"
-                    title={"NEW TO CHURCH"}
-                    details={
-                      "Visitor information to help you get to know more about our church and how you can become involved."
-                    }
-                    imgSrc="/images/branches-template.jpg"
-                  >
-                    <Button>
-                      Read more
-                      <svg
-                        className="-mr-1 ml-2 h-4 w-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </Button>
-                  </CustomCard>
-                  <CustomCard
-                    customClassName="mb-4"
-                    title={"NEW TO CHURCH"}
-                    details={
-                      "Visitor information to help you get to know more about our church and how you can become involved."
-                    }
-                    imgSrc="/images/branches-template.jpg"
-                  >
-                    <Button>
-                      Read more
-                      <svg
-                        className="-mr-1 ml-2 h-4 w-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </Button>
-                  </CustomCard>
-                </div>
-
-                <div className="max-w-3xl mx-auto">
+                <div className="max-w-3xl mx-auto mt-24">
                   <p
                     className="text-4xl mb-3 ls-51 uppercase"
                     data-aos="zoom-y-out"
@@ -181,6 +111,81 @@ export default function Services() {
                   >
                     Life at Church
                   </p>
+                </div>
+
+                <div className="flex max-w-6xl mx-auto">
+                  <CustomCard
+                    customClassName="m-4"
+                    title={"NEW TO CHURCH"}
+                    details={
+                      "Visitor information to help you get to know more about our church and how you can become involved."
+                    }
+                    imgSrc="/images/branches-template.jpg"
+                  >
+                    <Button>
+                      Read more
+                      <svg
+                        className="-mr-1 ml-2 h-4 w-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </Button>
+                  </CustomCard>
+                  <CustomCard
+                    customClassName="m-4"
+                    title={"NEW TO CHURCH"}
+                    details={
+                      "Visitor information to help you get to know more about our church and how you can become involved."
+                    }
+                    imgSrc="/images/branches-template.jpg"
+                  >
+                    <Button>
+                      Read more
+                      <svg
+                        className="-mr-1 ml-2 h-4 w-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </Button>
+                  </CustomCard>
+                  <CustomCard
+                    customClassName="m-4"
+                    title={"NEW TO CHURCH"}
+                    details={
+                      "Visitor information to help you get to know more about our church and how you can become involved."
+                    }
+                    imgSrc="/images/branches-template.jpg"
+                  >
+                    <Button>
+                      Read more
+                      <svg
+                        className="-mr-1 ml-2 h-4 w-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </Button>
+                  </CustomCard>
                 </div>
               </div>
             )}

@@ -14,6 +14,7 @@ export default function CustomCard({
   details,
   imgSrc,
   imgAtl,
+  imgSize = { width: 360, height: 280 },
   children,
   horizontal = false,
 }: {
@@ -22,6 +23,7 @@ export default function CustomCard({
   details?: string;
   imgSrc?: string;
   imgAtl?: string;
+  imgSize?: { width: number; height: number };
   children?: ReactNode;
   horizontal?: boolean;
 }) {
@@ -32,15 +34,16 @@ export default function CustomCard({
         !!imgSrc ? (
           <Image
             className="w-full"
-            width={355}
-            height={240}
+            width={horizontal ? imgSize.height : imgSize.width}
+            height={horizontal ? imgSize.width : imgSize.height}
             src={imgSrc}
             alt={imgAtl || title}
             style={{
-              height: 240,
-              minHeight: 240,
+              maxHeight: horizontal ? imgSize.width : imgSize.height,
+              maxWidth: horizontal ? imgSize.height : imgSize.width,
               borderTopLeftRadius: "0.5rem",
-              borderTopRightRadius: "0.5rem",
+              borderTopRightRadius: horizontal ? "" : "0.5rem",
+              borderBottomLeftRadius: horizontal ? "0.5rem" : "",
             }}
           />
         ) : (
