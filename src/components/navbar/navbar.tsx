@@ -102,11 +102,7 @@ export default function Navbar() {
             arrowIcon={false}
             inline
             label={
-              <Avatar
-                alt="User settings"
-                img="/images/default-profile-pic.png"
-                rounded
-              />
+              <Avatar alt="User settings" img="/images/user.png" rounded />
             }
             placement="bottom"
           >

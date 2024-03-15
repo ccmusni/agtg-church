@@ -14,7 +14,7 @@ export default function CustomCard({
   details,
   imgSrc,
   imgAtl,
-  imgSize = { width: 360, height: 280 },
+  imgSize = { width: "100%", height: 280 },
   children,
   horizontal = false,
 }: {
@@ -23,7 +23,7 @@ export default function CustomCard({
   details?: string;
   imgSrc?: string;
   imgAtl?: string;
-  imgSize?: { width: number; height: number };
+  imgSize?: { width?: string | number; height?: string | number };
   children?: ReactNode;
   horizontal?: boolean;
 }) {
@@ -32,20 +32,29 @@ export default function CustomCard({
       className={`${customClassName} max-w-sm w-full h-50`}
       renderImage={() =>
         !!imgSrc ? (
-          <Image
-            className="w-full"
-            width={horizontal ? imgSize.height : imgSize.width}
-            height={horizontal ? imgSize.width : imgSize.height}
-            src={imgSrc}
-            alt={imgAtl || title}
+          <div
             style={{
+              minHeight: horizontal ? imgSize.width : imgSize.height,
               maxHeight: horizontal ? imgSize.width : imgSize.height,
+              minWidth: horizontal ? imgSize.height : imgSize.width,
               maxWidth: horizontal ? imgSize.height : imgSize.width,
-              borderTopLeftRadius: "0.5rem",
-              borderTopRightRadius: horizontal ? "" : "0.5rem",
-              borderBottomLeftRadius: horizontal ? "0.5rem" : "",
             }}
-          />
+          >
+            <Image
+              className="w-full"
+              width={1000}
+              height={1000}
+              src={imgSrc}
+              alt={imgAtl || title}
+              style={{
+                width: "100%",
+                height: "100%",
+                borderTopLeftRadius: "0.5rem",
+                borderTopRightRadius: horizontal ? "" : "0.5rem",
+                borderBottomLeftRadius: horizontal ? "0.5rem" : "",
+              }}
+            />
+          </div>
         ) : (
           <></>
         )

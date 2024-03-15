@@ -1,54 +1,63 @@
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { Button, ButtonGroup } from "flowbite-react";
 
-import { IAnnouncement } from "Announcement";
+import { ILeadership, ILeadershipTitle } from "Leadership";
 
 import CustomCard from "../custom-card";
-import { TAnnouncementOnSaveProps } from "./announcements-cms";
-import AnnouncementItemAddEditModal from "./announcement-item-add-edit-modal";
+import { TLeadershipOnSaveProps } from "./leaderships-cms";
+import LeadershipItemAddEditModal from "./leadership-item-add-edit-modal";
 
 const CDNURL =
   "https://yrrhmzptqtwwbvytrpjv.supabase.co/storage/v1/object/public/images/";
 
-export default function AnnouncementItem({
-  announcement,
+export default function LeadershipItem({
+  leadership,
+  leadershipTitles,
   imgPreviewUrlSrc,
+  imgSize,
+  horizontalCard = true,
   admin,
   onUploadImage,
   onSave,
   onDelete,
 }: {
-  announcement: IAnnouncement;
+  leadership: ILeadership;
+  leadershipTitles: ILeadershipTitle[];
   admin?: boolean;
   imgPreviewUrlSrc?: string;
+  imgSize?: { width?: string | number; height?: string | number };
+  horizontalCard?: boolean;
   onUploadImage?: (e: ChangeEvent<HTMLInputElement>, id: number) => void;
   onSave?: ({
     id,
-    title,
+    name,
     details,
+    leadership_title_id,
     oldFileName,
-  }: TAnnouncementOnSaveProps) => void;
+  }: TLeadershipOnSaveProps) => void;
   onDelete?: (id: number) => void;
 }) {
-  const { id, img_file_name: imgFileName } = announcement;
-  const [imgSrc, setImgSrc] = useState("/images/announcement-template.jpg");
+  const { id, img_file_name: imgFileName } = leadership;
+  const [imgSrc, setImgSrc] = useState("/images/default-profile-pic.png");
   const [openModal, setOpenModal] = useState(false);
 
   useMemo(() => {
     if (!!imgFileName) {
-      setImgSrc(`${CDNURL}announcements/${id}/${imgFileName}`);
+      setImgSrc(`${CDNURL}leaderships/${id}/${imgFileName}`);
     }
   }, [imgFileName]);
 
   const handleSave = ({
-    title,
+    name,
     details,
-  }: Partial<TAnnouncementOnSaveProps>) => {
+    leadership_title_id,
+  }: Partial<TLeadershipOnSaveProps>) => {
     onSave({
-      ...announcement,
-      title,
+      ...leadership,
+      name,
       details,
-      oldFileName: announcement.img_file_name,
+      leadership_title_id,
+      oldFileName: leadership.img_file_name,
     });
     handleClose();
   };
@@ -59,10 +68,12 @@ export default function AnnouncementItem({
 
   return (
     <CustomCard
-      title={announcement.title}
-      details={announcement.details}
+      customClassName="mb-4"
+      title={leadership.name}
+      details={leadership.details}
       imgSrc={imgSrc}
-      imgSize={{ height: 280 }}
+      imgSize={imgSize}
+      horizontal={horizontalCard}
     >
       {admin && (
         <>
@@ -78,8 +89,9 @@ export default function AnnouncementItem({
               Delete
             </Button>
           </ButtonGroup>
-          <AnnouncementItemAddEditModal
-            announcement={announcement}
+          <LeadershipItemAddEditModal
+            leadership={leadership}
+            leadershipTitles={leadershipTitles}
             imgSrc={imgPreviewUrlSrc || imgSrc}
             open={openModal}
             onUploadImage={onUploadImage}

@@ -9,6 +9,7 @@ import CustomCard from "@/components/custom-card";
 
 import { ILeadership } from "Leadership";
 import { fetchLeaderships } from "@/services/leaderships.service";
+import Leaderships from "@/components/leaderships/leaderships";
 
 export default function About() {
   const [isLoading, setIsLoading] = useState(false);
@@ -91,19 +92,9 @@ export default function About() {
                   </p>
                 </div>
 
-                {!!leaderships?.length &&
-                  leaderships.map(({ id, name, details }) => (
-                    <CustomCard
-                      key={id}
-                      customClassName="mb-4"
-                      title={name}
-                      details={details}
-                      imgSrc="/images/default-profile-pic.png"
-                      horizontal
-                    />
-                  ))}
+                <Leaderships />
 
-                <div className="max-w-3xl mx-auto mt-24">
+                <div className="max-w-3xl mx-auto">
                   <p
                     className="text-4xl mb-3 ls-51 uppercase"
                     data-aos="zoom-y-out"

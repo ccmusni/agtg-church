@@ -72,9 +72,10 @@ export default function Members() {
 
     if (data?.length) {
       setRoles(data);
-      setIsLoading(false);
       setFetchError(null);
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
