@@ -9,6 +9,7 @@ import AnnouncementsCms from "@/components/announcements/announcements-cms";
 import ServicesCms from "@/components/services/services-cms";
 import BranchesCms from "@/components/branches/branches-cms";
 import LeadershipsCms from "@/components/leaderships/leaderships-cms";
+import ArticlesCms from "@/components/articles/articles-cms";
 
 export const metadata = {
   title: "Content Editor - AGTG Church",
@@ -35,6 +36,12 @@ export default function ContentManagementSystem() {
           <AccordionTitle>Leaderships</AccordionTitle>
           <AccordionContent>
             <LeadershipsCms />
+          </AccordionContent>
+        </AccordionPanel>
+        <AccordionPanel>
+          <AccordionTitle>Life at Church</AccordionTitle>
+          <AccordionContent>
+            <ArticlesCms />
           </AccordionContent>
         </AccordionPanel>
         <AccordionPanel>

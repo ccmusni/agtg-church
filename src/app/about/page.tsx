@@ -61,13 +61,14 @@ export default function About() {
             ) : (
               <div className="flex flex-col w-full items-center">
                 <div className="w-full mx-auto text-center pl-24 pr-24 pb-12">
-                  <p
-                    className="text-5xl mb-3 ls-51"
+                  <h1
+                    className="h5 text-5xl mb-3 ls-51"
                     data-aos="zoom-y-out"
                     data-aos-delay="150"
                   >
-                    A very warm welcome
-                  </p>
+                    Welcome!
+                  </h1>
+
                   <p
                     className="text-normal mb-3 ls-51"
                     data-aos="zoom-y-out"

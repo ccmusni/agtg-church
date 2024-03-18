@@ -74,13 +74,7 @@ export default function ArticleItem({
       imgSize={imgSize}
       horizontal={false}
     >
-      {!!article.read_more_url && (
-        <Button onClick={() => router.push(`/article/${article.id}`)}>
-          Read more
-          <HiOutlineArrowRight className="ml-2 h-5 w-5" />
-        </Button>
-      )}
-      {admin && (
+      {admin ? (
         <>
           <ButtonGroup>
             <Button className="w-full z-0" onClick={() => setOpenModal(true)}>
@@ -103,6 +97,13 @@ export default function ArticleItem({
             onClose={handleClose}
           />
         </>
+      ) : (
+        !!article.read_more_url && (
+          <Button onClick={() => router.push(`/article/${article.id}`)}>
+            Read more
+            <HiOutlineArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        )
       )}
     </CustomCard>
   );

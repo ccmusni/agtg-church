@@ -121,7 +121,7 @@ export default function ArticlesCms() {
               article={article}
               admin
               imgPreviewUrlSrc={imgPreviewUrlSrc}
-              imgSize={{ height: 360, width: "100%" }}
+              imgSize={{ height: 280, width: "100%" }}
               onUploadImage={handleUploadImage}
               onSave={handleSave}
               onDelete={handleDelete}

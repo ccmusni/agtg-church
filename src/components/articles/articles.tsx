@@ -50,7 +50,7 @@ export default function Articles() {
           <ArticleItem
             key={article.id}
             article={article}
-            imgSize={{ height: 360, width: "100%" }}
+            imgSize={{ height: 280, width: "100%" }}
           />
         ))}
     </>
