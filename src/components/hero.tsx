@@ -53,7 +53,7 @@ export default function Hero() {
                 data-aos="zoom-y-out"
                 data-aos-delay="150"
               >
-                Bringing Glory to God, Together
+                In Bringing Glory to God, Together
               </p>
             </div>
           </div>
