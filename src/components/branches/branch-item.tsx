@@ -1,9 +1,9 @@
 import { ChangeEvent, useMemo, useState } from "react";
 import { Button, ButtonGroup } from "flowbite-react";
 
-import { IBranch } from "Branch";
-
 import CustomCard from "../custom-card";
+
+import { IBranch } from "Branch";
 import { TBranchOnSaveProps } from "./branches-cms";
 import BranchItemAddEditModal from "./branches-item-add-edit-modal";
 

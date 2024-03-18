@@ -1,4 +1,4 @@
-import { Button, FlowbiteColors, Modal } from "flowbite-react";
+import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 type TPopupModalProps = {

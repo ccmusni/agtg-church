@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import supabase from "@/utils/supabase";
 
 import { IBranch } from "Branch";
 import { fetchbranches } from "@/services/branches.service";

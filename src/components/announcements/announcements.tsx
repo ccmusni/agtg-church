@@ -31,11 +31,10 @@ export default function Announcements() {
   };
 
   useEffect(() => {
-    // if (!announcements?.length && !isLoading) {
-    //   fetchStaticAnnouncements();
-    // }
-    fetchStaticAnnouncements();
-  }, []);
+    if (!announcements?.length && !isLoading) {
+      fetchStaticAnnouncements();
+    }
+  }, [announcements]);
 
   return (
     <section className="relative">

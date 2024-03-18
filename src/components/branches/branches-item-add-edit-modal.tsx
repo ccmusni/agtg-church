@@ -13,9 +13,6 @@ import {
 import { IBranch } from "Branch";
 import { TBranchOnSaveProps } from "./branches-cms";
 
-const CDNURL =
-  "https://yrrhmzptqtwwbvytrpjv.supabase.co/storage/v1/object/public/images/";
-
 export default function BranchItemAddEditModal({
   branch,
   imgSrc,

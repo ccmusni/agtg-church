@@ -1,6 +1,4 @@
 import { ChangeEvent, useRef, useState } from "react";
-import Image from "next/image";
-
 import {
   Button,
   Modal,
@@ -9,6 +7,7 @@ import {
   Textarea,
   FileInput,
 } from "flowbite-react";
+import Image from "next/image";
 
 import { ILeadership, ILeadershipTitle } from "Leadership";
 import { TLeadershipOnSaveProps } from "./leaderships-cms";

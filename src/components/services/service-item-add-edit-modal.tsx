@@ -1,13 +1,6 @@
 import { ChangeEvent, useState } from "react";
 
-import {
-  Button,
-  Modal,
-  Label,
-  TextInput,
-  Textarea,
-  FileInput,
-} from "flowbite-react";
+import { Button, Modal, Label, TextInput, Textarea } from "flowbite-react";
 
 import { IService } from "Service";
 import { TServiceOnSaveProps } from "./services-cms";

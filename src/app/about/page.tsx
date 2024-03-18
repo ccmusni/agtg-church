@@ -1,15 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "flowbite-react";
 
 import Hero from "@components/hero";
 import Loading from "@/components/ui/loading";
-import CustomCard from "@/components/custom-card";
 
 import { ILeadership } from "Leadership";
 import { fetchLeaderships } from "@/services/leaderships.service";
 import Leaderships from "@/components/leaderships/leaderships";
+import Articles from "@/components/articles/articles";
 
 export default function About() {
   const [isLoading, setIsLoading] = useState(false);
@@ -94,7 +93,7 @@ export default function About() {
 
                 <Leaderships />
 
-                <div className="max-w-3xl mx-auto">
+                <div className="max-w-3xl mx-auto mt-12">
                   <p
                     className="text-4xl mb-3 ls-51 uppercase"
                     data-aos="zoom-y-out"
@@ -103,80 +102,8 @@ export default function About() {
                     Life at Church
                   </p>
                 </div>
-
                 <div className="flex max-w-6xl mx-auto">
-                  <CustomCard
-                    customClassName="m-4"
-                    title={"NEW TO CHURCH"}
-                    details={
-                      "Visitor information to help you get to know more about our church and how you can become involved."
-                    }
-                    imgSrc="/images/branches-template.jpg"
-                  >
-                    <Button>
-                      Read more
-                      <svg
-                        className="-mr-1 ml-2 h-4 w-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </Button>
-                  </CustomCard>
-                  <CustomCard
-                    customClassName="m-4"
-                    title={"NEW TO CHURCH"}
-                    details={
-                      "Visitor information to help you get to know more about our church and how you can become involved."
-                    }
-                    imgSrc="/images/branches-template.jpg"
-                  >
-                    <Button>
-                      Read more
-                      <svg
-                        className="-mr-1 ml-2 h-4 w-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </Button>
-                  </CustomCard>
-                  <CustomCard
-                    customClassName="m-4"
-                    title={"NEW TO CHURCH"}
-                    details={
-                      "Visitor information to help you get to know more about our church and how you can become involved."
-                    }
-                    imgSrc="/images/branches-template.jpg"
-                  >
-                    <Button>
-                      Read more
-                      <svg
-                        className="-mr-1 ml-2 h-4 w-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </Button>
-                  </CustomCard>
+                  <Articles />
                 </div>
               </div>
             )}

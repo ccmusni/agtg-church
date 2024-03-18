@@ -10,28 +10,32 @@ import {
   FileInput,
 } from "flowbite-react";
 
-import { IAnnouncement } from "Announcement";
-import { TAnnouncementOnSaveProps } from "./announcements-cms";
+import { IArticle } from "Article";
+import { TArticleOnSaveProps } from "./articles-cms";
 
-export default function AnnouncementItemAddEditModal({
-  announcement,
+export default function ArticleItemAddEditModal({
+  article,
   imgSrc,
   open,
   onUploadImage,
   onSave,
   onClose,
 }: {
-  announcement?: IAnnouncement;
+  article?: IArticle;
   imgSrc?: string;
   open?: boolean;
   onUploadImage?: (e: ChangeEvent<HTMLInputElement>, id: number) => void;
-  onSave?: ({ title, details }: Partial<TAnnouncementOnSaveProps>) => void;
+  onSave?: ({
+    title,
+    details,
+    article_title_id,
+  }: Partial<TArticleOnSaveProps>) => void;
   onClose?: () => void;
 }) {
   const fileUploadRef = useRef(null);
   const [values, setValues] = useState({
-    title: announcement?.title || "",
-    details: announcement?.details || "",
+    title: article?.title || "",
+    details: article?.details || "",
   });
 
   const handleTextChange = ({
@@ -52,7 +56,7 @@ export default function AnnouncementItemAddEditModal({
       <Modal.Body>
         <div className="space-y-3">
           <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-            Edit Announcement
+            Edit Article
           </h3>
           {imgSrc ? (
             <Image
@@ -84,7 +88,7 @@ export default function AnnouncementItemAddEditModal({
             id="file-upload"
             ref={fileUploadRef}
             sizing="sm"
-            onChange={(e) => onUploadImage(e, announcement?.id)}
+            onChange={(e) => onUploadImage(e, article?.id)}
           />
 
           <div>

@@ -3,7 +3,6 @@ import { Transition } from "@headlessui/react";
 import Image from "next/image";
 
 import { IBranch } from "Branch";
-
 import BranchesTemplate from "@images/branches-template.jpg";
 
 const CDNURL =
